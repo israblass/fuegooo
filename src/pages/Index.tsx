@@ -1,12 +1,35 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from 'react';
+import IntroGate from '@/components/IntroGate';
+import ShopSection from '@/components/ShopSection';
+import AboutSection from '@/components/AboutSection';
+import Footer from '@/components/Footer';
 
 const Index = () => {
+  const [showIntro, setShowIntro] = useState(true);
+
+  const handleEnter = () => {
+    setShowIntro(false);
+    // Smooth scroll to shop section
+    setTimeout(() => {
+      const shopSection = document.getElementById('shop');
+      if (shopSection) {
+        shopSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-background">
+      {/* Intro Gate */}
+      {showIntro && <IntroGate onEnter={handleEnter} />}
+
+      {/* Main Content */}
+      <main>
+        <ShopSection />
+        <AboutSection />
+      </main>
+
+      <Footer />
     </div>
   );
 };
