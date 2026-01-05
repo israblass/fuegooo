@@ -1,10 +1,18 @@
 import { Instagram } from 'lucide-react';
+import fuegoLogoSecondary from '@/assets/fuego-logo-secondary.png';
 
 const Footer = () => {
   return (
-    <footer className="bg-background border-t border-border/20 py-12">
+    <footer className="bg-background border-t border-border/10 py-12">
       <div className="container max-w-6xl mx-auto px-6">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="flex flex-col items-center gap-8">
+          {/* Logo */}
+          <img
+            src={fuegoLogoSecondary}
+            alt="FUEGO"
+            className="h-10 w-auto object-contain invert opacity-60"
+          />
+
           {/* Social Links */}
           <div className="flex items-center gap-8">
             <a

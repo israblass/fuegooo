@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import IntroGate from '@/components/IntroGate';
+import Navbar from '@/components/Navbar';
 import ShopSection from '@/components/ShopSection';
 import AboutSection from '@/components/AboutSection';
 import Footer from '@/components/Footer';
@@ -22,6 +23,9 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       {/* Intro Gate */}
       {showIntro && <IntroGate onEnter={handleEnter} />}
+
+      {/* Navbar - only visible after intro */}
+      {!showIntro && <Navbar />}
 
       {/* Main Content */}
       <main>
