@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
-import fuegoLogoVideo from '@/assets/fuego-logo-animated.mp4';
+import fuegoLogoAnimated from '@/assets/fuego-logo-animated.gif';
 
 interface IntroGateProps {
   onEnter: () => void;
@@ -86,15 +86,12 @@ const IntroGate = ({ onEnter }: IntroGateProps) => {
       {/* Decorative top line */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-24 bg-gradient-to-b from-transparent via-foreground/20 to-transparent animate-fade-in" style={{ animationDelay: '0.1s' }} />
 
-      {/* Animated Logo - mix-blend-mode removes white background */}
+      {/* Animated Logo GIF */}
       <div className="mb-8 animate-fade-in" style={{ animationDelay: '0.2s' }}>
-        <video
-          src={fuegoLogoVideo}
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="w-72 md:w-96 lg:w-[28rem] h-auto object-contain mix-blend-screen"
+        <img
+          src={fuegoLogoAnimated}
+          alt="FUEGO"
+          className="w-72 md:w-96 lg:w-[28rem] h-auto object-contain"
         />
       </div>
 
