@@ -86,14 +86,6 @@ const IntroGate = ({ onEnter }: IntroGateProps) => {
       {/* Decorative top line */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-24 bg-gradient-to-b from-transparent via-foreground/20 to-transparent animate-fade-in" style={{ animationDelay: '0.1s' }} />
 
-      {/* Tagline above logo */}
-      <p 
-        className="text-[10px] tracking-[0.5em] uppercase text-foreground/40 mb-8 animate-fade-in"
-        style={{ animationDelay: '0.3s' }}
-      >
-        Luxury Streetwear
-      </p>
-
       {/* Logo with chrome effect and shimmer */}
       <div className="mb-8 animate-fade-in shimmer" style={{ animationDelay: '0.2s' }}>
         <img
@@ -132,36 +124,19 @@ const IntroGate = ({ onEnter }: IntroGateProps) => {
           disabled={isSubmitting}
           className="w-full mt-4 btn-ghost text-[10px]"
         >
-          {isSubmitting ? 'Registrando...' : 'Únete a la lista'}
+          {isSubmitting ? 'Signing up...' : 'Sign up'}
         </button>
       </form>
-
-      {/* Divider */}
-      <div 
-        className="flex items-center gap-4 mb-10 animate-fade-in"
-        style={{ animationDelay: '0.55s', opacity: 0 }}
-      >
-        <span className="w-12 h-px bg-foreground/20" />
-        <span className="text-[9px] tracking-[0.3em] uppercase text-foreground/30">o</span>
-        <span className="w-12 h-px bg-foreground/20" />
-      </div>
 
       {/* Shop Button */}
       <button
         onClick={handleEnter}
-        className="btn-enter animate-fade-in"
-        style={{ animationDelay: '0.6s', opacity: 0 }}
+        className="btn-enter animate-fade-in mt-6"
+        style={{ animationDelay: '0.55s', opacity: 0 }}
       >
         Shop
       </button>
 
-      {/* Location badge */}
-      <p 
-        className="absolute bottom-8 text-[9px] tracking-[0.3em] uppercase text-foreground/25 animate-fade-in"
-        style={{ animationDelay: '0.8s' }}
-      >
-        Caracas, Venezuela
-      </p>
 
       {/* Decorative bottom corners */}
       <div className="absolute bottom-0 left-8 w-px h-16 bg-gradient-to-t from-foreground/10 to-transparent" />
