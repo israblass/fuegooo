@@ -86,7 +86,7 @@ const IntroGate = ({ onEnter }: IntroGateProps) => {
       {/* Decorative top line */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-24 bg-gradient-to-b from-transparent via-foreground/20 to-transparent animate-fade-in" style={{ animationDelay: '0.1s' }} />
 
-      {/* Animated Logo */}
+      {/* Animated Logo - mix-blend-mode removes white background */}
       <div className="mb-8 animate-fade-in" style={{ animationDelay: '0.2s' }}>
         <video
           src={fuegoLogoVideo}
@@ -94,7 +94,7 @@ const IntroGate = ({ onEnter }: IntroGateProps) => {
           loop
           muted
           playsInline
-          className="w-72 md:w-96 lg:w-[28rem] h-auto object-contain"
+          className="w-72 md:w-96 lg:w-[28rem] h-auto object-contain mix-blend-screen"
         />
       </div>
 
