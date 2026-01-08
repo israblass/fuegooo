@@ -1,6 +1,6 @@
 const AboutSection = () => {
   return (
-    <section className="min-h-screen bg-background flex items-center py-20 md:py-32">
+    <section id="about" className="min-h-screen bg-background flex items-center py-20 md:py-32">
       <div className="container max-w-3xl mx-auto px-6">
         <div className="space-y-12 text-center">
           {/* Title */}
