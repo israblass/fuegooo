@@ -1,32 +1,39 @@
 const AboutSection = () => {
   return (
-    <section id="about" className="min-h-screen bg-background flex items-center py-20 md:py-32">
-      <div className="container max-w-3xl mx-auto px-6">
-        <div className="space-y-12 text-center">
+    <section id="about" className="min-h-screen bg-background flex items-center py-24 md:py-40">
+      <div className="container max-w-4xl mx-auto px-6">
+        <div className="space-y-16 text-center">
           {/* Title */}
-          <h2 className="text-xs tracking-[0.5em] uppercase text-muted-foreground">
+          <h2 className="text-[10px] md:text-xs tracking-[0.6em] uppercase text-muted-foreground/60 font-light">
             Hecho en Candela — Est. 2023
           </h2>
 
           {/* Manifesto */}
-          <div className="space-y-8">
-            <p className="text-lg md:text-xl lg:text-2xl font-light leading-relaxed text-foreground/90">
-              FUEGO no nació en la cima. Nació en el quiebre.
+          <div className="space-y-10">
+            <p className="text-2xl md:text-3xl lg:text-4xl font-extralight leading-relaxed text-foreground tracking-tight">
+              FUEGO no nació en la cima.
+              <br />
+              <span className="chrome-text font-normal">Nació en el quiebre.</span>
             </p>
             
-            <p className="text-base md:text-lg font-light leading-relaxed text-muted-foreground">
+            <div className="w-12 h-px bg-foreground/20 mx-auto" />
+            
+            <p className="text-base md:text-lg font-light leading-[1.8] text-foreground/70 max-w-2xl mx-auto">
               La idea surgió en 2023, justo cuando todo parecía venirse abajo. 
-              En ese punto de presión, donde otros se apagan, nosotros nos encendimos.
+              En ese punto de presión, donde otros se apagan, 
+              <span className="text-foreground font-normal"> nosotros nos encendimos.</span>
             </p>
 
-            <p className="text-base md:text-lg font-light leading-relaxed text-muted-foreground">
-              Hecho en Candela no es solo un slogan, es el uniforme de los que 
-              transforman la crisis en energía.
+            <p className="text-base md:text-lg font-light leading-[1.8] text-foreground/70 max-w-2xl mx-auto">
+              <span className="text-foreground/90 italic">Hecho en Candela</span> no es solo un slogan, 
+              es el uniforme de los que transforman la crisis en energía.
             </p>
 
-            <p className="text-sm tracking-[0.3em] uppercase text-foreground/60 pt-8">
-              Caracas, Venezuela
-            </p>
+            <div className="pt-12">
+              <p className="text-[10px] md:text-xs tracking-[0.5em] uppercase text-foreground/40 font-light">
+                Caracas, Venezuela
+              </p>
+            </div>
           </div>
         </div>
       </div>
