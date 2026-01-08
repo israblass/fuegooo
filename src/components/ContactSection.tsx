@@ -1,9 +1,31 @@
+import { useEffect, useRef, useState } from "react";
 import { Instagram, Mail, MessageCircle } from 'lucide-react';
 
 const ContactSection = () => {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section id="contact" className="min-h-screen bg-background py-20 md:py-32 flex items-center">
-      <div className="container max-w-3xl mx-auto px-6">
+      <div ref={sectionRef} className={`container max-w-3xl mx-auto px-6 transition-all duration-1000 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
         <div className="text-center space-y-12">
           {/* Section Header */}
           <div>

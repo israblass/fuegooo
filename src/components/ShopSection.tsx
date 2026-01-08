@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import ProductCard from './ProductCard';
 import productHoodie from '@/assets/product-hoodie.png';
 import productShorts from '@/assets/product-shorts.png';
@@ -32,9 +33,30 @@ const products = [
 ];
 
 const ShopSection = () => {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section id="shop" className="min-h-screen bg-background py-20 md:py-32">
-      <div className="container max-w-6xl mx-auto px-6">
+      <div ref={sectionRef} className={`container max-w-6xl mx-auto px-6 transition-all duration-1000 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
         {/* Section Header */}
         <div className="mb-16 md:mb-24">
           <h2 className="text-xs tracking-[0.4em] uppercase text-muted-foreground mb-2">
