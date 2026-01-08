@@ -1,8 +1,31 @@
+import { useEffect, useRef, useState } from "react";
+
 const AboutSection = () => {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section id="about" className="min-h-screen bg-background flex items-center py-24 md:py-40">
-      <div className="container max-w-4xl mx-auto px-6">
-        <div className="space-y-16 text-center">
+      <div ref={sectionRef} className="container max-w-4xl mx-auto px-6">
+        <div className={`space-y-16 text-center transition-all duration-1000 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           {/* Title */}
           <h2 className="text-[10px] md:text-xs tracking-[0.6em] uppercase text-muted-foreground/60 font-light">
             Hecho en Candela — Est. 2023
