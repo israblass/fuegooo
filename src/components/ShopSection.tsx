@@ -55,8 +55,8 @@ const ShopSection = () => {
   }, []);
 
   return (
-    <section id="shop" className="min-h-screen bg-background py-20 md:py-32">
-      <div ref={sectionRef} className={`container max-w-6xl mx-auto px-6 transition-all duration-1000 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+    <section id="shop" className="min-h-screen bg-background py-20 md:py-32 noise-overlay grid-pattern relative">
+      <div ref={sectionRef} className={`container max-w-6xl mx-auto px-6 transition-all duration-1000 ease-out relative z-10 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
         {/* Section Header */}
         <div className="mb-16 md:mb-24">
           <h2 className="text-xs tracking-[0.4em] uppercase text-muted-foreground mb-2">

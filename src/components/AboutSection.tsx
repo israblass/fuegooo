@@ -23,8 +23,12 @@ const AboutSection = () => {
   }, []);
 
   return (
-    <section id="about" className="min-h-screen bg-background flex items-center py-24 md:py-40">
-      <div ref={sectionRef} className="container max-w-4xl mx-auto px-6">
+    <section id="about" className="min-h-screen bg-background flex items-center py-24 md:py-40 noise-overlay relative overflow-hidden">
+      {/* Decorative fire glow */}
+      <div className="absolute top-1/4 -left-32 w-96 h-96 bg-[hsl(15_90%_55%/0.04)] rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-1/4 -right-32 w-80 h-80 bg-[hsl(25_85%_50%/0.03)] rounded-full blur-[100px] pointer-events-none" />
+      
+      <div ref={sectionRef} className="container max-w-4xl mx-auto px-6 relative z-10">
         <div className={`space-y-16 text-center transition-all duration-1000 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           {/* Title */}
           <h2 className="text-[10px] md:text-xs tracking-[0.6em] uppercase text-muted-foreground/60 font-light">

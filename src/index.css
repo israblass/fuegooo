@@ -41,6 +41,9 @@
     --chrome-mid: 0 0% 75%;
     --chrome-end: 0 0% 50%;
     --chrome-dark: 0 0% 30%;
+    
+    /* Fire accent for subtle glow effects */
+    --fire-glow: 15 90% 55%;
   }
 
   .dark {
@@ -176,6 +179,73 @@
     @apply hover:bg-foreground hover:text-background;
   }
 }
+
+  /* Noise texture overlay */
+  .noise-overlay {
+    position: relative;
+  }
+
+  .noise-overlay::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.03;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Grid pattern background */
+  .grid-pattern {
+    background-image: 
+      linear-gradient(to right, hsl(0 0% 100% / 0.02) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(0 0% 100% / 0.02) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  /* Diagonal lines pattern */
+  .diagonal-lines {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 40px,
+      hsl(0 0% 100% / 0.015) 40px,
+      hsl(0 0% 100% / 0.015) 41px
+    );
+  }
+
+  /* Radial glow accent */
+  .radial-glow {
+    position: relative;
+  }
+
+  .radial-glow::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 60%;
+    background: radial-gradient(ellipse at center, hsl(15 90% 55% / 0.03) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Gradient border accent */
+  .gradient-border {
+    position: relative;
+  }
+
+  .gradient-border::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, hsl(0 0% 100% / 0.1), transparent);
+  }
 
 @layer utilities {
   .fade-in {
