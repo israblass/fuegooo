@@ -87,7 +87,9 @@ const IntroGate = ({ onEnter }: IntroGateProps) => {
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-24 bg-gradient-to-b from-transparent via-foreground/20 to-transparent animate-fade-in" style={{ animationDelay: '0.1s' }} />
 
       {/* Animated Logo Video */}
-      <div className="mb-8 animate-fade-in" style={{ animationDelay: '0.2s' }}>
+      <div 
+        className="mb-8 opacity-0 animate-[fadeIn_1.5s_ease-out_0.3s_forwards]"
+      >
         <video
           src={fuegoLogoVideo}
           autoPlay
