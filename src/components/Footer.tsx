@@ -16,7 +16,7 @@ const Footer = () => {
           {/* Social Links */}
           <div className="flex items-center gap-8">
             <a
-              href="https://instagram.com"
+              href="https://www.instagram.com/fueegooooo/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-muted-foreground hover:text-foreground transition-colors duration-300"
@@ -25,12 +25,20 @@ const Footer = () => {
               <Instagram size={20} strokeWidth={1.5} />
             </a>
             <a
-              href="https://wa.me/584121234567"
+              href="https://wa.me/573150612919"
               target="_blank"
               rel="noopener noreferrer"
               className="text-xs tracking-[0.2em] uppercase text-muted-foreground hover:text-foreground transition-colors duration-300"
             >
-              WhatsApp
+              COL
+            </a>
+            <a
+              href="https://wa.me/584220078811"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs tracking-[0.2em] uppercase text-muted-foreground hover:text-foreground transition-colors duration-300"
+            >
+              VEN
             </a>
           </div>
 
