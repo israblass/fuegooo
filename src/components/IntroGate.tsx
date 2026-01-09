@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
-import fuegoLogoVideo from '@/assets/fuego-logo-animated.mov';
+import fuegoLogoVideo from '@/assets/fuego-intro-animation.mp4';
 
 interface IntroGateProps {
   onEnter: () => void;
@@ -117,7 +117,7 @@ const IntroGate = ({ onEnter }: IntroGateProps) => {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="Tu correo electrónico"
+            placeholder="e-mail"
             className="input-minimal text-center"
             disabled={isSubmitting}
           />
