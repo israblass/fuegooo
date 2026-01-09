@@ -74,21 +74,6 @@ const Navbar = ({ onGoHome }: NavbarProps) => {
           </DropdownMenuContent>
         </DropdownMenu>
 
-        {/* Quick Nav Links */}
-        <div className="flex items-center gap-6 md:gap-8">
-          <button
-            onClick={() => scrollToSection('shop')}
-            className="text-xs tracking-[0.2em] uppercase text-foreground/80 hover:text-foreground transition-colors duration-300"
-          >
-            Shop
-          </button>
-          <button
-            onClick={() => scrollToSection('about')}
-            className="text-xs tracking-[0.2em] uppercase text-foreground/80 hover:text-foreground transition-colors duration-300"
-          >
-            About
-          </button>
-        </div>
       </div>
     </nav>
   );
