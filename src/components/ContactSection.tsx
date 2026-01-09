@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Instagram, Mail, MessageCircle } from 'lucide-react';
+import { Instagram, MessageCircle } from 'lucide-react';
 
 const ContactSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -45,33 +45,35 @@ const ContactSection = () => {
             </p>
 
             {/* Contact Links */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-12 pt-4">
+            <div className="flex flex-col items-center gap-6 pt-4">
               <a
-                href="mailto:hola@fuego.studio"
-                className="flex items-center gap-3 text-foreground/70 hover:text-foreground transition-colors duration-300 group"
-              >
-                <Mail size={18} strokeWidth={1.5} className="group-hover:scale-110 transition-transform" />
-                <span className="text-sm tracking-wide">hola@fuego.studio</span>
-              </a>
-
-              <a
-                href="https://wa.me/584121234567"
+                href="https://wa.me/573150612919"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-3 text-foreground/70 hover:text-foreground transition-colors duration-300 group"
               >
                 <MessageCircle size={18} strokeWidth={1.5} className="group-hover:scale-110 transition-transform" />
-                <span className="text-sm tracking-wide">WhatsApp</span>
+                <span className="text-sm tracking-wide">WhatsApp Colombia</span>
               </a>
 
               <a
-                href="https://instagram.com/fuego.studio"
+                href="https://wa.me/584220078811"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 text-foreground/70 hover:text-foreground transition-colors duration-300 group"
+              >
+                <MessageCircle size={18} strokeWidth={1.5} className="group-hover:scale-110 transition-transform" />
+                <span className="text-sm tracking-wide">WhatsApp Venezuela</span>
+              </a>
+
+              <a
+                href="https://www.instagram.com/fueegooooo/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-3 text-foreground/70 hover:text-foreground transition-colors duration-300 group"
               >
                 <Instagram size={18} strokeWidth={1.5} className="group-hover:scale-110 transition-transform" />
-                <span className="text-sm tracking-wide">@fuego.studio</span>
+                <span className="text-sm tracking-wide">@fueegooooo</span>
               </a>
             </div>
           </div>
