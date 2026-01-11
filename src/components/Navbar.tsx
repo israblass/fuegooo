@@ -7,6 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { CartDrawer } from './CartDrawer';
 
 interface NavbarProps {
   onGoHome?: () => void;
@@ -74,6 +75,8 @@ const Navbar = ({ onGoHome }: NavbarProps) => {
           </DropdownMenuContent>
         </DropdownMenu>
 
+        {/* Cart */}
+        <CartDrawer />
       </div>
     </nav>
   );
