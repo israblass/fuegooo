@@ -1,38 +1,86 @@
+import { Link } from 'react-router-dom';
+import { ShopifyProduct } from '@/lib/shopify';
+import { useCartStore } from '@/stores/cartStore';
+import { toast } from 'sonner';
+
 interface ProductCardProps {
-  image: string;
-  name: string;
-  price: string;
+  product: ShopifyProduct;
 }
 
-const ProductCard = ({ image, name, price }: ProductCardProps) => {
+const ProductCard = ({ product }: ProductCardProps) => {
+  const addItem = useCartStore(state => state.addItem);
+  const { node } = product;
+  
+  const imageUrl = node.images?.edges?.[0]?.node?.url;
+  const price = node.priceRange.minVariantPrice;
+  const firstVariant = node.variants?.edges?.[0]?.node;
+
+  const formatPrice = (amount: string, currency: string) => {
+    return new Intl.NumberFormat('es-CO', {
+      style: 'currency',
+      currency: currency,
+      minimumFractionDigits: 0,
+    }).format(parseFloat(amount));
+  };
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!firstVariant) return;
+
+    addItem({
+      product,
+      variantId: firstVariant.id,
+      variantTitle: firstVariant.title,
+      price: firstVariant.price,
+      quantity: 1,
+      selectedOptions: firstVariant.selectedOptions || [],
+    });
+
+    toast.success('Agregado al carrito', {
+      description: node.title,
+      position: 'top-center',
+    });
+  };
+
   return (
-    <div className="product-card group">
+    <Link to={`/product/${node.handle}`} className="product-card group block">
       {/* Product Image */}
       <div className="aspect-square bg-muted/10 overflow-hidden mb-4">
-        <img
-          src={image}
-          alt={name}
-          className="w-full h-full object-cover object-center"
-        />
+        {imageUrl ? (
+          <img
+            src={imageUrl}
+            alt={node.title}
+            className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center text-muted-foreground">
+            Sin imagen
+          </div>
+        )}
       </div>
 
       {/* Product Info */}
       <div className="space-y-3">
         <div className="flex justify-between items-start">
           <h3 className="text-sm font-medium tracking-wide uppercase text-foreground">
-            {name}
+            {node.title}
           </h3>
           <span className="text-sm font-light text-muted-foreground">
-            {price}
+            {formatPrice(price.amount, price.currencyCode)}
           </span>
         </div>
 
         {/* Buy Button */}
-        <button className="product-buy-btn w-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <button 
+          onClick={handleAddToCart}
+          className="product-buy-btn w-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        >
           Agregar
         </button>
       </div>
-    </div>
+    </Link>
   );
 };
 

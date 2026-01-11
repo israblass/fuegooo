@@ -1,40 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import ProductCard from './ProductCard';
-import productHoodie from '@/assets/product-hoodie.png';
-import productShorts from '@/assets/product-shorts.png';
-import productTshirt from '@/assets/product-tshirt.png';
-import productPants from '@/assets/product-pants.png';
-
-const products = [
-  {
-    id: 1,
-    image: productHoodie,
-    name: 'Essentials Hoodie',
-    price: '$85',
-  },
-  {
-    id: 2,
-    image: productTshirt,
-    name: 'Core Tee',
-    price: '$45',
-  },
-  {
-    id: 3,
-    image: productPants,
-    name: 'Classic Pants',
-    price: '$75',
-  },
-  {
-    id: 4,
-    image: productShorts,
-    name: 'Essential Shorts',
-    price: '$55',
-  },
-];
+import { fetchProducts, ShopifyProduct } from '@/lib/shopify';
+import { Loader2 } from 'lucide-react';
 
 const ShopSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [products, setProducts] = useState<ShopifyProduct[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -54,6 +27,21 @@ const ShopSection = () => {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    const loadProducts = async () => {
+      try {
+        const data = await fetchProducts(20);
+        setProducts(data);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadProducts();
+  }, []);
+
   return (
     <section id="shop" className="min-h-screen bg-background py-20 md:py-32 noise-overlay grid-pattern relative">
       <div ref={sectionRef} className={`container max-w-6xl mx-auto px-6 transition-all duration-1000 ease-out relative z-10 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
@@ -68,21 +56,30 @@ const ShopSection = () => {
         </div>
 
         {/* Products Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
-          {products.map((product, index) => (
-            <div
-              key={product.id}
-              className="animate-fade-up"
-              style={{ animationDelay: `${index * 0.1}s`, opacity: 0 }}
-            >
-              <ProductCard
-                image={product.image}
-                name={product.name}
-                price={product.price}
-              />
-            </div>
-          ))}
-        </div>
+        {isLoading ? (
+          <div className="flex items-center justify-center py-20">
+            <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+          </div>
+        ) : products.length === 0 ? (
+          <div className="text-center py-20">
+            <p className="text-muted-foreground text-lg mb-2">No hay productos disponibles</p>
+            <p className="text-sm text-muted-foreground/70">
+              Los productos aparecerán aquí cuando se agreguen a la tienda
+            </p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+            {products.map((product, index) => (
+              <div
+                key={product.node.id}
+                className="animate-fade-up"
+                style={{ animationDelay: `${index * 0.1}s`, opacity: 0 }}
+              >
+                <ProductCard product={product} />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
