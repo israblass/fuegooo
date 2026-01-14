@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import ProductCard from './ProductCard';
 import { fetchProducts, ShopifyProduct } from '@/lib/shopify';
-import { Loader2, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import heroHec from '@/assets/hero-hec.png';
 import { Button } from '@/components/ui/button';
 
@@ -69,34 +69,44 @@ const ShopSection = () => {
 
   return (
     <section id="shop" className="bg-white">
-      {/* Hero Banner - Full screen style like TRUE shop */}
-      <div className="relative w-full h-[85vh] md:h-[90vh] overflow-hidden pt-14 md:pt-16">
-        {/* Background Image */}
-        <img 
-          src={heroHec} 
-          alt="FUEGO - Hecho en Candela" 
-          className="absolute inset-0 w-full h-full object-cover object-center"
-        />
-        
-        {/* Dark overlay for better text readability if needed */}
-        <div className="absolute inset-0 bg-black/10" />
-        
-        {/* Navigation Arrows */}
-        <button className="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center bg-white/90 rounded-full shadow-lg hover:bg-white transition-colors">
-          <ChevronLeft size={20} className="text-neutral-800" />
-        </button>
-        <button className="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center bg-white/90 rounded-full shadow-lg hover:bg-white transition-colors">
-          <ChevronRight size={20} className="text-neutral-800" />
-        </button>
+      {/* Hero Section - Split Layout */}
+      <div className="flex flex-col md:flex-row min-h-[calc(100vh-56px)] md:min-h-[calc(100vh-64px)] pt-14 md:pt-16">
+        {/* Mobile: Image First */}
+        <div className="md:hidden w-full">
+          <img 
+            src={heroHec} 
+            alt="FUEGO - Hecho en Candela" 
+            className="w-full h-auto object-contain"
+          />
+        </div>
 
-        {/* CTA Button at bottom */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
-          <Button 
-            onClick={scrollToProducts}
-            className="bg-neutral-900 hover:bg-neutral-800 text-white px-8 py-3 text-xs tracking-[0.2em] uppercase font-medium"
-          >
-            Shop Now
-          </Button>
+        {/* Left Side - Text Content */}
+        <div className="w-full md:w-1/2 bg-white flex flex-col justify-center items-center px-8 py-12 md:py-0">
+          <div className="text-center">
+            <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter text-neutral-900 mb-6">
+              FUEGO
+            </h1>
+            <p className="text-sm md:text-base tracking-[0.2em] uppercase text-neutral-600 mb-8">
+              Hecho en Candela
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button 
+                onClick={scrollToProducts}
+                className="bg-neutral-900 hover:bg-neutral-800 text-white px-8 py-3 text-xs tracking-[0.2em] uppercase font-medium"
+              >
+                Explorar Colección
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Side - Image (Desktop Only) */}
+        <div className="hidden md:flex w-1/2 bg-neutral-100 items-center justify-center overflow-hidden">
+          <img 
+            src={heroHec} 
+            alt="FUEGO - Hecho en Candela" 
+            className="h-full w-auto max-w-none object-contain"
+          />
         </div>
       </div>
 
