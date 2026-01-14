@@ -62,7 +62,7 @@ const ShopSection = () => {
   const activeCollectionData = collections.find(c => c.id === activeCollection);
 
   return (
-    <section id="shop" className="min-h-screen bg-white pt-28 pb-20 md:pt-36 md:pb-32 relative">
+    <section id="shop" className="min-h-screen bg-white pt-28 pb-8 md:pt-36 md:pb-12 relative">
       {/* Smooth transition gradient from top */}
       <div className="absolute top-0 left-0 right-0 h-20 bg-gradient-to-b from-neutral-100/50 to-transparent pointer-events-none" />
 
