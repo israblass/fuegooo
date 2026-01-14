@@ -1,5 +1,5 @@
 import { forwardRef, useEffect, useState } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, ChevronDown } from 'lucide-react';
 import fuegoLogoSecondary from '@/assets/fuego-logo-secondary.png';
 import { CartDrawer } from './CartDrawer';
 import {
@@ -7,6 +7,12 @@ import {
   SheetContent,
   SheetTrigger,
 } from '@/components/ui/sheet';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 interface NavbarProps {
   onGoHome?: () => void;
@@ -37,9 +43,9 @@ const Navbar = forwardRef<HTMLElement, NavbarProps>(({ onGoHome }, ref) => {
     setIsOpen(false);
   };
 
-  const navLinks = [
-    { label: 'Shop', action: () => scrollToSection('shop') },
-    { label: 'Collections', action: () => scrollToSection('collections') },
+  const collections = [
+    { label: 'BASICS', id: 'basics' },
+    { label: 'HECHO EN CANDELA', id: 'hecho-en-candela' },
   ];
 
   const rightLinks = [
@@ -49,7 +55,8 @@ const Navbar = forwardRef<HTMLElement, NavbarProps>(({ onGoHome }, ref) => {
 
   const allLinks = [
     { label: 'Home', action: handleHomeClick },
-    ...navLinks,
+    { label: 'Shop', action: () => scrollToSection('shop') },
+    { label: 'Collections', action: () => scrollToSection('collections') },
     ...rightLinks,
   ];
 
@@ -71,15 +78,31 @@ const Navbar = forwardRef<HTMLElement, NavbarProps>(({ onGoHome }, ref) => {
             >
               Home
             </button>
-            {navLinks.map((link) => (
-              <button
-                key={link.label}
-                onClick={link.action}
-                className="text-[11px] tracking-[0.15em] uppercase text-neutral-600 hover:text-neutral-900 transition-colors"
-              >
-                {link.label}
-              </button>
-            ))}
+            <button
+              onClick={() => scrollToSection('shop')}
+              className="text-[11px] tracking-[0.15em] uppercase text-neutral-600 hover:text-neutral-900 transition-colors"
+            >
+              Shop
+            </button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="flex items-center gap-1 text-[11px] tracking-[0.15em] uppercase text-neutral-600 hover:text-neutral-900 transition-colors">
+                  Collections
+                  <ChevronDown size={14} />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="bg-white border border-neutral-200 shadow-lg z-50">
+                {collections.map((collection) => (
+                  <DropdownMenuItem
+                    key={collection.id}
+                    onClick={() => scrollToSection('collections')}
+                    className="text-[11px] tracking-[0.15em] uppercase text-neutral-600 hover:text-neutral-900 cursor-pointer"
+                  >
+                    {collection.label}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
 
           {/* Center Logo */}
@@ -88,7 +111,7 @@ const Navbar = forwardRef<HTMLElement, NavbarProps>(({ onGoHome }, ref) => {
               <img
                 src={fuegoLogoSecondary}
                 alt="FUEGO"
-                className="h-10 w-auto object-contain"
+                className="h-[120px] w-auto object-contain"
               />
             </button>
           </div>
@@ -137,7 +160,7 @@ const Navbar = forwardRef<HTMLElement, NavbarProps>(({ onGoHome }, ref) => {
             <img
               src={fuegoLogoSecondary}
               alt="FUEGO"
-              className="h-8 w-auto object-contain"
+              className="h-24 w-auto object-contain"
             />
           </button>
 
