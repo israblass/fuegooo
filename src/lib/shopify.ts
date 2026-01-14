@@ -222,8 +222,8 @@ export async function storefrontApiRequest(query: string, variables: Record<stri
   return data;
 }
 
-export async function fetchProducts(first: number = 20): Promise<ShopifyProduct[]> {
-  const data = await storefrontApiRequest(STOREFRONT_QUERY, { first });
+export async function fetchProducts(first: number = 20, query?: string): Promise<ShopifyProduct[]> {
+  const data = await storefrontApiRequest(STOREFRONT_QUERY, { first, query });
   return data?.data?.products?.edges || [];
 }
 

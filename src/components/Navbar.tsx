@@ -41,9 +41,7 @@ const Navbar = ({ onGoHome }: NavbarProps) => {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
-        isScrolled ? 'bg-background/95 backdrop-blur-sm border-b border-border/10' : 'bg-transparent'
-      }`}
+      className="absolute top-0 left-0 right-0 z-40 bg-transparent"
     >
       <div className="container max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo Dropdown */}

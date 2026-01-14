@@ -3,11 +3,26 @@ import ProductCard from './ProductCard';
 import { fetchProducts, ShopifyProduct } from '@/lib/shopify';
 import { Loader2 } from 'lucide-react';
 
+type CollectionKey = 'hecho-en-candela' | 'basics' | 'coming-soon';
+
+interface Collection {
+  id: CollectionKey;
+  name: string;
+  query?: string;
+}
+
+const collections: Collection[] = [
+  { id: 'hecho-en-candela', name: 'Hecho en Candela', query: undefined },
+  { id: 'basics', name: 'Basics', query: undefined },
+  { id: 'coming-soon', name: '???', query: undefined },
+];
+
 const ShopSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [products, setProducts] = useState<ShopifyProduct[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [activeCollection, setActiveCollection] = useState<CollectionKey>('hecho-en-candela');
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -29,8 +44,10 @@ const ShopSection = () => {
 
   useEffect(() => {
     const loadProducts = async () => {
+      setIsLoading(true);
       try {
-        const data = await fetchProducts(20);
+        const collection = collections.find(c => c.id === activeCollection);
+        const data = await fetchProducts(20, collection?.query);
         setProducts(data);
       } catch (error) {
         console.error('Error fetching products:', error);
@@ -40,25 +57,48 @@ const ShopSection = () => {
     };
 
     loadProducts();
-  }, []);
+  }, [activeCollection]);
+
+  const activeCollectionData = collections.find(c => c.id === activeCollection);
 
   return (
     <section id="shop" className="min-h-screen bg-background py-20 md:py-32 noise-overlay grid-pattern relative">
       <div ref={sectionRef} className={`container max-w-6xl mx-auto px-6 transition-all duration-1000 ease-out relative z-10 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
         {/* Section Header */}
-        <div className="mb-16 md:mb-24">
-          <h2 className="text-xs tracking-[0.4em] uppercase text-muted-foreground mb-2">
+        <div className="mb-12 md:mb-16">
+          <h2 className="text-xs tracking-[0.4em] uppercase text-muted-foreground mb-6">
             COLLETIONS
           </h2>
-          <p className="text-2xl md:text-3xl font-light text-foreground tracking-tight">
-            Basics
-          </p>
+          
+          {/* Collection Tabs */}
+          <div className="flex flex-wrap gap-4 md:gap-6">
+            {collections.map((collection) => (
+              <button
+                key={collection.id}
+                onClick={() => setActiveCollection(collection.id)}
+                className={`text-lg md:text-2xl font-light tracking-tight transition-all duration-300 pb-2 border-b-2 ${
+                  activeCollection === collection.id
+                    ? 'text-foreground border-foreground'
+                    : 'text-muted-foreground border-transparent hover:text-foreground/70'
+                }`}
+              >
+                {collection.name}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Products Grid */}
         {isLoading ? (
           <div className="flex items-center justify-center py-20">
             <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+          </div>
+        ) : activeCollection === 'coming-soon' ? (
+          <div className="text-center py-20">
+            <p className="text-muted-foreground text-lg mb-2">Pronto</p>
+            <p className="text-sm text-muted-foreground/70">
+              Esta colección estará disponible muy pronto
+            </p>
           </div>
         ) : products.length === 0 ? (
           <div className="text-center py-20">
