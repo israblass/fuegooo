@@ -8,7 +8,7 @@ import { toast } from 'sonner';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
-// Import local cap images for color mapping
+// Import local cap images for Dad Cap color mapping
 import capBlack from '@/assets/cap-black.png';
 import capSand from '@/assets/cap-sand.png';
 import capPink from '@/assets/cap-pink.png';
@@ -17,8 +17,16 @@ import capMilitaryGreen from '@/assets/cap-military-green.png';
 import capRoyalBlue from '@/assets/cap-royal-blue.png';
 import capWashedBlack from '@/assets/cap-washed-black.png';
 
-// Color to local image mapping
-const colorImageMap: Record<string, string> = {
+// Import Trucker Classic images
+import truckerBlack from '@/assets/trucker-black-white.png';
+import truckerFullBlack from '@/assets/trucker-full-black.png';
+import truckerWhite from '@/assets/trucker-white.png';
+import truckerWine from '@/assets/trucker-wine.png';
+import truckerSand from '@/assets/trucker-sand.png';
+import truckerNavy from '@/assets/trucker-navy.png';
+
+// Dad Cap color to local image mapping
+const dadCapImageMap: Record<string, string> = {
   'Black': capBlack,
   'Sand': capSand,
   'Pink': capPink,
@@ -26,6 +34,24 @@ const colorImageMap: Record<string, string> = {
   'Military Green': capMilitaryGreen,
   'Royal Blue': capRoyalBlue,
   'Washed Black': capWashedBlack,
+};
+
+// Trucker Classic color to local image mapping
+const truckerImageMap: Record<string, string> = {
+  'Black': truckerBlack,
+  'Full Black': truckerFullBlack,
+  'Classic White': truckerWhite,
+  'Wine': truckerWine,
+  'Sand': truckerSand,
+  'Navy': truckerNavy,
+};
+
+// Get the correct image map based on product handle
+const getImageMap = (handle: string): Record<string, string> => {
+  if (handle === 'trucker-classic') {
+    return truckerImageMap;
+  }
+  return dadCapImageMap;
 };
 
 const ProductDetail = () => {
@@ -47,11 +73,12 @@ const ProductDetail = () => {
         setProduct(data);
         
         // Set initial image based on first variant color or first product image
-        if (data) {
+        if (data && handle) {
+          const imageMap = getImageMap(handle);
           const firstVariant = data.variants?.edges?.[0]?.node;
           const colorOption = firstVariant?.selectedOptions?.find(opt => opt.name === 'Color');
-          if (colorOption && colorImageMap[colorOption.value]) {
-            setCurrentImageUrl(colorImageMap[colorOption.value]);
+          if (colorOption && imageMap[colorOption.value]) {
+            setCurrentImageUrl(imageMap[colorOption.value]);
           } else if (data.images?.edges?.[0]?.node?.url) {
             setCurrentImageUrl(data.images.edges[0].node.url);
           }
@@ -70,12 +97,13 @@ const ProductDetail = () => {
   const handleVariantChange = (variantIndex: number) => {
     setSelectedVariantIndex(variantIndex);
     
-    if (product) {
+    if (product && handle) {
+      const imageMap = getImageMap(handle);
       const variant = product.variants?.edges?.[variantIndex]?.node;
       const colorOption = variant?.selectedOptions?.find(opt => opt.name === 'Color');
       
-      if (colorOption && colorImageMap[colorOption.value]) {
-        setCurrentImageUrl(colorImageMap[colorOption.value]);
+      if (colorOption && imageMap[colorOption.value]) {
+        setCurrentImageUrl(imageMap[colorOption.value]);
       }
     }
   };
