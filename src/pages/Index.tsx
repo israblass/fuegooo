@@ -6,8 +6,6 @@ import CollectionsSection from '@/components/CollectionsSection';
 import AboutSection from '@/components/AboutSection';
 import ContactSection from '@/components/ContactSection';
 import Footer from '@/components/Footer';
-import bannerCandela from '@/assets/banner-collections.jpg';
-import bannerCandelaMobile from '@/assets/banner-collections-mobile.png';
 
 const INTRO_DONE_KEY = 'fuego_intro_done';
 const SCROLL_Y_KEY = 'fuego_scroll_y';
@@ -61,21 +59,6 @@ const Index = () => {
 
       {/* Main Content */}
       <main>
-        {/* Hero Banner - right below navbar */}
-        {!showIntro && (
-          <div className="w-full">
-            <img 
-              src={bannerCandelaMobile} 
-              alt="FUEGO - Candela Banner" 
-              className="w-full h-auto object-cover md:hidden"
-            />
-            <img 
-              src={bannerCandela} 
-              alt="FUEGO - Candela Banner" 
-              className="hidden md:block w-full h-auto object-cover md:max-h-[600px]"
-            />
-          </div>
-        )}
         <ShopSection />
         <CollectionsSection />
         <AboutSection />
