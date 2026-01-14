@@ -46,9 +46,9 @@ const ContactSection = () => {
       [e.target.name]: e.target.value
     }));
   };
-  return <section id="contact" className="min-h-screen bg-background py-20 md:py-32">
+  return <section id="contact" className="bg-background py-10 md:py-16">
       <div ref={sectionRef} className={`container max-w-4xl mx-auto px-6 transition-all duration-1000 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-        <div className="space-y-16">
+        <div className="space-y-10">
           {/* Header */}
           <div className="text-center space-y-4">
             <h2 className="text-xs tracking-[0.4em] uppercase text-muted-foreground">

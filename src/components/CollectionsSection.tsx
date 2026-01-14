@@ -39,9 +39,9 @@ const CollectionsSection = () => {
   }, []);
 
   return (
-    <section id="collections" className="bg-background pt-0 pb-10 md:pb-16 diagonal-lines radial-glow gradient-border relative">
+    <section id="collections" className="bg-background pt-0 pb-6 md:pb-8 diagonal-lines radial-glow gradient-border relative">
       {/* Banner Image */}
-      <div className="w-full mb-10 md:mb-16">
+      <div className="w-full mb-6 md:mb-8">
         <img 
           src={bannerCandela} 
           alt="FUEGO - Candela Banner" 
