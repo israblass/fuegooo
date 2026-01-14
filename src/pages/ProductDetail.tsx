@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { fetchProductByHandle, ShopifyProduct } from '@/lib/shopify';
 import { useCartStore } from '@/stores/cartStore';
 import { Button } from '@/components/ui/button';
@@ -75,6 +75,7 @@ const getImageStyle = (handle: string): string => {
 
 const ProductDetail = () => {
   const { handle } = useParams<{ handle: string }>();
+  const navigate = useNavigate();
   const [product, setProduct] = useState<ShopifyProduct['node'] | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
@@ -193,13 +194,13 @@ const ProductDetail = () => {
       <main className="pt-24 pb-20">
         <div className="container max-w-6xl mx-auto px-6">
           {/* Back Button */}
-          <Link 
-            to="/" 
+          <button 
+            onClick={() => navigate(-1)}
             className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-8"
           >
             <ArrowLeft size={16} />
             <span className="text-sm tracking-wide">Volver</span>
-          </Link>
+          </button>
 
           <div className="grid md:grid-cols-2 gap-12 lg:gap-20">
             {/* Main Image with Zoom Effect */}
