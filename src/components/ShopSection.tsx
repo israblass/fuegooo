@@ -3,7 +3,7 @@ import ProductCard from './ProductCard';
 import { fetchProducts, ShopifyProduct } from '@/lib/shopify';
 import { Loader2 } from 'lucide-react';
 
-type CollectionKey = 'hecho-en-candela' | 'basics' | 'coming-soon';
+type CollectionKey = 'hecho-en-candela' | 'basics';
 
 interface Collection {
   id: CollectionKey;
@@ -14,7 +14,6 @@ interface Collection {
 const collections: Collection[] = [
   { id: 'hecho-en-candela', name: 'Hecho en Candela', query: undefined },
   { id: 'basics', name: 'Basics', query: undefined },
-  { id: 'coming-soon', name: '???', query: undefined },
 ];
 
 const ShopSection = () => {
@@ -92,13 +91,6 @@ const ShopSection = () => {
         {isLoading ? (
           <div className="flex items-center justify-center py-20">
             <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-          </div>
-        ) : activeCollection === 'coming-soon' ? (
-          <div className="text-center py-20">
-            <p className="text-muted-foreground text-lg mb-2">Pronto</p>
-            <p className="text-sm text-muted-foreground/70">
-              Esta colección estará disponible muy pronto
-            </p>
           </div>
         ) : products.length === 0 ? (
           <div className="text-center py-20">
