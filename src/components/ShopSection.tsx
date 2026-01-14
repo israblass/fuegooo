@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import ProductCard from './ProductCard';
 import { fetchProducts, ShopifyProduct } from '@/lib/shopify';
 import { Loader2 } from 'lucide-react';
+import hecBanner from '@/assets/hec-banner.png';
 
 type CollectionKey = 'hecho-en-candela' | 'basics';
 
@@ -87,6 +88,15 @@ const ShopSection = () => {
               </button>
             ))}
           </div>
+        </div>
+
+        {/* Banner */}
+        <div className="mb-12 md:mb-16 overflow-hidden rounded-sm">
+          <img 
+            src={hecBanner} 
+            alt="FUEGO Collection" 
+            className="w-full h-48 md:h-64 lg:h-80 object-cover"
+          />
         </div>
 
         {/* Products Grid */}
