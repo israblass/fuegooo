@@ -46,13 +46,13 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
   return (
     <Link to={`/product/${node.handle}`} className="product-card group block">
-      {/* Product Image */}
-      <div className="aspect-square bg-muted/10 overflow-hidden mb-4">
+      {/* Product Image - 3:4 aspect ratio */}
+      <div className="aspect-[3/4] bg-product-bg overflow-hidden mb-4">
         {imageUrl ? (
           <img
             src={imageUrl}
             alt={node.title}
-            className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
+            className="w-full h-full object-contain object-center transition-transform duration-500 group-hover:scale-105"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-muted-foreground">
@@ -72,10 +72,10 @@ const ProductCard = ({ product }: ProductCardProps) => {
           </span>
         </div>
 
-        {/* Buy Button */}
+        {/* Buy Button - Solid black, sharp corners */}
         <button 
           onClick={handleAddToCart}
-          className="product-buy-btn w-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          className="w-full py-3 bg-foreground text-background text-xs tracking-[0.2em] uppercase font-medium opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-foreground/90"
         >
           Agregar
         </button>
