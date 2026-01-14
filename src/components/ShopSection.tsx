@@ -69,45 +69,13 @@ const ShopSection = () => {
 
   return (
     <section id="shop" className="bg-white">
-      {/* Hero Section - Split Layout */}
-      <div className="flex flex-col md:flex-row min-h-[calc(100vh-56px)] md:min-h-[calc(100vh-64px)] pt-14 md:pt-16">
-        {/* Mobile: Image First */}
-        <div className="md:hidden w-full">
-          <img 
-            src={heroHec} 
-            alt="FUEGO - Hecho en Candela" 
-            className="w-full h-auto object-contain"
-          />
-        </div>
-
-        {/* Left Side - Text Content */}
-        <div className="w-full md:w-1/2 bg-white flex flex-col justify-center items-center px-8 py-12 md:py-0">
-          <div className="text-center">
-            <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter text-neutral-900 mb-6">
-              FUEGO
-            </h1>
-            <p className="text-sm md:text-base tracking-[0.2em] uppercase text-neutral-600 mb-8">
-              Hecho en Candela
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button 
-                onClick={scrollToProducts}
-                className="bg-neutral-900 hover:bg-neutral-800 text-white px-8 py-3 text-xs tracking-[0.2em] uppercase font-medium"
-              >
-                Explorar Colección
-              </Button>
-            </div>
-          </div>
-        </div>
-
-        {/* Right Side - Image (Desktop Only) */}
-        <div className="hidden md:flex w-1/2 bg-neutral-100 items-center justify-center overflow-hidden">
-          <img 
-            src={heroHec} 
-            alt="FUEGO - Hecho en Candela" 
-            className="h-full w-auto max-w-none object-contain"
-          />
-        </div>
+      {/* Hero Section - Full Image */}
+      <div className="w-full pt-14 md:pt-16">
+        <img 
+          src={heroHec} 
+          alt="FUEGO - Hecho en Candela" 
+          className="w-full h-auto object-contain"
+        />
       </div>
 
       {/* Collection Tabs - Horizontal scroll like TRUE shop */}
