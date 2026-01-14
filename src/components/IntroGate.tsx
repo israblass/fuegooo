@@ -79,12 +79,12 @@ const IntroGate = ({ onEnter }: IntroGateProps) => {
 
   return (
     <div
-      className={`fixed inset-0 z-50 bg-background flex flex-col items-center justify-center transition-all duration-800 ${
+      className={`fixed inset-0 z-50 bg-black flex flex-col items-center justify-center transition-all duration-800 ${
         isExiting ? 'animate-slide-up-exit' : ''
       }`}
     >
       {/* Decorative top line */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-24 bg-gradient-to-b from-transparent via-foreground/20 to-transparent animate-fade-in" style={{ animationDelay: '0.1s' }} />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-24 bg-gradient-to-b from-transparent via-white/20 to-transparent animate-fade-in" style={{ animationDelay: '0.1s' }} />
 
       {/* Animated Logo Video */}
       <div 
@@ -102,7 +102,7 @@ const IntroGate = ({ onEnter }: IntroGateProps) => {
 
       {/* Tagline below logo */}
       <p 
-        className="text-[10px] tracking-[0.4em] uppercase text-foreground/50 mb-12 animate-fade-in"
+        className="text-[10px] tracking-[0.4em] uppercase text-white/50 mb-12 animate-fade-in"
         style={{ animationDelay: '0.4s' }}
       >
         Hecho en Candela — Est. 2023
@@ -120,14 +120,14 @@ const IntroGate = ({ onEnter }: IntroGateProps) => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="e-mail"
-            className="input-minimal text-center"
+            className="w-full bg-transparent border-0 border-b border-white/30 py-3 text-white text-center text-sm tracking-wider placeholder:text-white/40 focus:outline-none focus:border-white/60 transition-colors"
             disabled={isSubmitting}
           />
         </div>
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full mt-4 btn-ghost text-[10px]"
+          className="w-full mt-4 py-3 border border-white/30 text-white text-[10px] tracking-[0.3em] uppercase hover:bg-white hover:text-black transition-all duration-300"
         >
           {isSubmitting ? 'Signing up...' : 'Sign up'}
         </button>
@@ -136,7 +136,7 @@ const IntroGate = ({ onEnter }: IntroGateProps) => {
       {/* Shop Button */}
       <button
         onClick={handleEnter}
-        className="btn-enter animate-fade-in mt-6"
+        className="px-12 py-4 bg-white text-black text-xs tracking-[0.3em] uppercase font-medium hover:bg-white/90 transition-all duration-300 animate-fade-in mt-6"
         style={{ animationDelay: '0.55s', opacity: 0 }}
       >
         Shop
@@ -144,8 +144,8 @@ const IntroGate = ({ onEnter }: IntroGateProps) => {
 
 
       {/* Decorative bottom corners */}
-      <div className="absolute bottom-0 left-8 w-px h-16 bg-gradient-to-t from-foreground/10 to-transparent" />
-      <div className="absolute bottom-0 right-8 w-px h-16 bg-gradient-to-t from-foreground/10 to-transparent" />
+      <div className="absolute bottom-0 left-8 w-px h-16 bg-gradient-to-t from-white/10 to-transparent" />
+      <div className="absolute bottom-0 right-8 w-px h-16 bg-gradient-to-t from-white/10 to-transparent" />
     </div>
   );
 };
