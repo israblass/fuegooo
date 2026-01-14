@@ -8,13 +8,33 @@ import { toast } from 'sonner';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
+// Import local cap images for color mapping
+import capBlack from '@/assets/cap-black.png';
+import capSand from '@/assets/cap-sand.png';
+import capPink from '@/assets/cap-pink.png';
+import capRed from '@/assets/cap-red.png';
+import capMilitaryGreen from '@/assets/cap-military-green.png';
+import capRoyalBlue from '@/assets/cap-royal-blue.png';
+import capWashedBlack from '@/assets/cap-washed-black.png';
+
+// Color to local image mapping
+const colorImageMap: Record<string, string> = {
+  'Black': capBlack,
+  'Sand': capSand,
+  'Pink': capPink,
+  'Red': capRed,
+  'Military Green': capMilitaryGreen,
+  'Royal Blue': capRoyalBlue,
+  'Washed Black': capWashedBlack,
+};
+
 const ProductDetail = () => {
   const { handle } = useParams<{ handle: string }>();
   const [product, setProduct] = useState<ShopifyProduct['node'] | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
-  const [selectedImage, setSelectedImage] = useState(0);
+  const [currentImageUrl, setCurrentImageUrl] = useState<string | null>(null);
   
   const addItem = useCartStore(state => state.addItem);
 
@@ -25,6 +45,17 @@ const ProductDetail = () => {
       try {
         const data = await fetchProductByHandle(handle);
         setProduct(data);
+        
+        // Set initial image based on first variant color or first product image
+        if (data) {
+          const firstVariant = data.variants?.edges?.[0]?.node;
+          const colorOption = firstVariant?.selectedOptions?.find(opt => opt.name === 'Color');
+          if (colorOption && colorImageMap[colorOption.value]) {
+            setCurrentImageUrl(colorImageMap[colorOption.value]);
+          } else if (data.images?.edges?.[0]?.node?.url) {
+            setCurrentImageUrl(data.images.edges[0].node.url);
+          }
+        }
       } catch (error) {
         console.error('Error fetching product:', error);
       } finally {
@@ -34,6 +65,20 @@ const ProductDetail = () => {
 
     loadProduct();
   }, [handle]);
+
+  // Update image when variant changes
+  const handleVariantChange = (variantIndex: number) => {
+    setSelectedVariantIndex(variantIndex);
+    
+    if (product) {
+      const variant = product.variants?.edges?.[variantIndex]?.node;
+      const colorOption = variant?.selectedOptions?.find(opt => opt.name === 'Color');
+      
+      if (colorOption && colorImageMap[colorOption.value]) {
+        setCurrentImageUrl(colorImageMap[colorOption.value]);
+      }
+    }
+  };
 
   if (isLoading) {
     return (
@@ -57,8 +102,6 @@ const ProductDetail = () => {
   }
 
   const selectedVariant = product.variants?.edges?.[selectedVariantIndex]?.node;
-  const images = product.images?.edges || [];
-  const currentImage = images[selectedImage]?.node;
 
   const formatPrice = (amount: string, currency: string) => {
     return new Intl.NumberFormat('es-CO', {
@@ -106,14 +149,14 @@ const ProductDetail = () => {
           </Link>
 
           <div className="grid md:grid-cols-2 gap-12 lg:gap-20">
-            {/* Images */}
+            {/* Main Image with Zoom Effect */}
             <div className="space-y-4">
-              <div className="aspect-square bg-muted/10 overflow-hidden">
-                {currentImage ? (
+              <div className="aspect-square bg-muted/10 overflow-hidden cursor-zoom-in">
+                {currentImageUrl ? (
                   <img
-                    src={currentImage.url}
-                    alt={currentImage.altText || product.title}
-                    className="w-full h-full object-cover"
+                    src={currentImageUrl}
+                    alt={product.title}
+                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center text-muted-foreground">
@@ -121,26 +164,6 @@ const ProductDetail = () => {
                   </div>
                 )}
               </div>
-              
-              {images.length > 1 && (
-                <div className="flex gap-2 overflow-x-auto pb-2">
-                  {images.map((img, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => setSelectedImage(idx)}
-                      className={`w-16 h-16 flex-shrink-0 overflow-hidden border-2 transition-colors ${
-                        selectedImage === idx ? 'border-foreground' : 'border-transparent'
-                      }`}
-                    >
-                      <img
-                        src={img.node.url}
-                        alt={img.node.altText || `${product.title} ${idx + 1}`}
-                        className="w-full h-full object-cover"
-                      />
-                    </button>
-                  ))}
-                </div>
-              )}
             </div>
 
             {/* Product Info */}
@@ -163,7 +186,7 @@ const ProductDetail = () => {
                 </p>
               )}
 
-              {/* Variant Options */}
+              {/* Variant Options - Color buttons now change image */}
               {product.options && product.options.length > 0 && product.options[0].name !== "Title" && (
                 <div className="space-y-4">
                   {product.options.map((option) => (
@@ -172,7 +195,7 @@ const ProductDetail = () => {
                         {option.name}
                       </label>
                       <div className="flex flex-wrap gap-2">
-                        {option.values.map((value, idx) => {
+                        {option.values.map((value) => {
                           const variantIndex = product.variants?.edges?.findIndex(
                             v => v.node.selectedOptions?.some(
                               opt => opt.name === option.name && opt.value === value
@@ -182,13 +205,13 @@ const ProductDetail = () => {
                           return (
                             <button
                               key={value}
-                              onClick={() => variantIndex !== undefined && variantIndex >= 0 && setSelectedVariantIndex(variantIndex)}
-                              className={`px-4 py-2 text-sm border transition-colors ${
+                              onClick={() => variantIndex !== undefined && variantIndex >= 0 && handleVariantChange(variantIndex)}
+                              className={`px-4 py-2 text-sm border transition-all duration-200 ${
                                 selectedVariant?.selectedOptions?.some(
                                   opt => opt.name === option.name && opt.value === value
                                 )
                                   ? 'border-foreground bg-foreground text-background'
-                                  : 'border-border hover:border-foreground'
+                                  : 'border-border hover:border-foreground hover:bg-muted/10'
                               }`}
                             >
                               {value}
