@@ -85,6 +85,11 @@ const ProductDetail = () => {
   const addItem = useCartStore(state => state.addItem);
 
   useEffect(() => {
+    // Ensure the intro gate doesn’t re-appear when navigating back to "/"
+    sessionStorage.setItem('fuego_intro_done', '1');
+  }, []);
+
+  useEffect(() => {
     const loadProduct = async () => {
       if (!handle) return;
       
@@ -195,7 +200,10 @@ const ProductDetail = () => {
         <div className="container max-w-6xl mx-auto px-6">
           {/* Back Button */}
           <button 
-            onClick={() => navigate(-1)}
+            onClick={() => {
+              if (window.history.length > 1) navigate(-1);
+              else navigate('/');
+            }}
             className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-8"
           >
             <ArrowLeft size={16} />
