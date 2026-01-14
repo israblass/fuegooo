@@ -23,7 +23,7 @@ const AboutSection = () => {
   }, []);
 
   return (
-    <section id="about" className="min-h-[60vh] bg-background flex items-center py-24 md:py-40 noise-overlay relative overflow-hidden">
+    <section id="about" className="bg-background flex items-center py-12 md:py-20 noise-overlay relative overflow-hidden">
       {/* Decorative fire glow */}
       <div className="absolute top-1/4 -left-32 w-96 h-96 bg-[hsl(15_90%_55%/0.04)] rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-1/4 -right-32 w-80 h-80 bg-[hsl(25_85%_50%/0.03)] rounded-full blur-[100px] pointer-events-none" />
