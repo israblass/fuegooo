@@ -47,7 +47,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
   return (
     <Link to={`/product/${node.handle}`} className="product-card group block">
       {/* Product Image - 3:4 aspect ratio */}
-      <div className="aspect-[3/4] bg-product-bg overflow-hidden mb-4">
+      <div className="aspect-[3/4] bg-background overflow-hidden mb-4">
         {imageUrl ? (
           <img
             src={imageUrl}
