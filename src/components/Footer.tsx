@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 import { Instagram } from 'lucide-react';
-
+import fuegoLogoSecondary from '@/assets/fuego-logo-secondary.png';
 const TikTokIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
