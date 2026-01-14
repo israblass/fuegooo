@@ -119,7 +119,7 @@ const ShopSection = () => {
       </div>
 
       {/* Banner - Full width on mobile, after products */}
-      <div className="mt-16 md:mt-24 overflow-hidden md:mx-auto md:max-w-6xl md:px-6">
+      <div className="mt-8 md:mt-12 overflow-hidden md:mx-auto md:max-w-6xl md:px-6">
         <div className="md:rounded-sm overflow-hidden">
           <img 
             src={hecBanner} 
