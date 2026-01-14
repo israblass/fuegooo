@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from "react";
+import bannerCandela from "@/assets/banner-collections.jpg";
+import bannerCandelaMobile from "@/assets/banner-collections-mobile.png";
 const collections = [
   {
     id: 1,
@@ -38,6 +40,21 @@ const CollectionsSection = () => {
 
   return (
     <section id="collections" className="bg-background pt-0 pb-6 md:pb-8 diagonal-lines radial-glow gradient-border relative">
+      {/* Banner Image */}
+      <div className="w-full mb-6 md:mb-8">
+        {/* Mobile Banner */}
+        <img 
+          src={bannerCandelaMobile} 
+          alt="FUEGO - Candela Banner" 
+          className="w-full h-auto object-cover md:hidden"
+        />
+        {/* Desktop Banner */}
+        <img 
+          src={bannerCandela} 
+          alt="FUEGO - Candela Banner" 
+          className="hidden md:block w-full h-auto object-cover md:max-h-[600px]"
+        />
+      </div>
 
       <div ref={sectionRef} className={`container max-w-6xl mx-auto px-6 transition-all duration-1000 ease-out relative z-10 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
         {/* Section Header */}
