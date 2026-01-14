@@ -12,8 +12,8 @@ interface Collection {
 }
 
 const collections: Collection[] = [
-  { id: 'hecho-en-candela', name: 'Hecho en Candela', query: undefined },
-  { id: 'basics', name: 'Basics', query: undefined },
+  { id: 'hecho-en-candela', name: 'HECHO EN CANDELA', query: 'tag:hecho-en-candela' },
+  { id: 'basics', name: 'Basics', query: 'tag:basics' },
 ];
 
 const ShopSection = () => {
