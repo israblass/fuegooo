@@ -65,17 +65,6 @@ const ShopSection = () => {
     <section id="shop" className="min-h-screen bg-white pt-28 pb-20 md:pt-36 md:pb-32 relative">
       {/* Smooth transition gradient from top */}
       <div className="absolute top-0 left-0 right-0 h-20 bg-gradient-to-b from-neutral-100/50 to-transparent pointer-events-none" />
-      
-      {/* Banner - Full width on mobile */}
-      <div className="mb-8 md:mb-16 overflow-hidden -mx-0 md:mx-auto md:max-w-6xl md:px-6">
-        <div className="md:rounded-sm overflow-hidden">
-          <img 
-            src={hecBanner} 
-            alt="FUEGO Collection" 
-            className="w-full h-40 md:h-64 lg:h-80 object-cover"
-          />
-        </div>
-      </div>
 
       <div ref={sectionRef} className={`container max-w-6xl mx-auto px-6 transition-all duration-1000 ease-out relative z-10 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
         {/* Section Header */}
@@ -127,6 +116,17 @@ const ShopSection = () => {
             ))}
           </div>
         )}
+      </div>
+
+      {/* Banner - Full width on mobile, after products */}
+      <div className="mt-16 md:mt-24 overflow-hidden md:mx-auto md:max-w-6xl md:px-6">
+        <div className="md:rounded-sm overflow-hidden">
+          <img 
+            src={hecBanner} 
+            alt="FUEGO Collection" 
+            className="w-full h-40 md:h-64 lg:h-80 object-cover"
+          />
+        </div>
       </div>
     </section>
   );
