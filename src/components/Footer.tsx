@@ -1,5 +1,5 @@
+import { forwardRef } from 'react';
 import { Instagram } from 'lucide-react';
-import fuegoLogoSecondary from '@/assets/fuego-logo-secondary.png';
 
 const TikTokIcon = () => (
   <svg
@@ -17,9 +17,9 @@ const TikTokIcon = () => (
   </svg>
 );
 
-const Footer = () => {
+const Footer = forwardRef<HTMLElement>((_props, ref) => {
   return (
-    <footer className="bg-background border-t border-border/10 py-12">
+    <footer ref={ref} className="bg-background border-t border-border/10 py-12">
       <div className="container max-w-6xl mx-auto px-6">
         <div className="flex flex-col items-center gap-8">
           {/* WORLDWIDE Label */}
@@ -64,6 +64,8 @@ const Footer = () => {
       </div>
     </footer>
   );
-};
+});
+
+Footer.displayName = 'Footer';
 
 export default Footer;

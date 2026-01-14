@@ -3,6 +3,8 @@ import { ShopifyProduct } from '@/lib/shopify';
 import { useCartStore } from '@/stores/cartStore';
 import { toast } from 'sonner';
 
+const SCROLL_Y_KEY = 'fuego_scroll_y';
+
 interface ProductCardProps {
   product: ShopifyProduct;
 }
@@ -45,7 +47,14 @@ const ProductCard = ({ product }: ProductCardProps) => {
   };
 
   return (
-    <Link to={`/product/${node.handle}`} className="product-card group block">
+    <Link
+      to={`/product/${node.handle}`}
+      onClick={() => {
+        // Save scroll position so "Volver" can return you to the same spot
+        sessionStorage.setItem(SCROLL_Y_KEY, String(window.scrollY));
+      }}
+      className="product-card group block"
+    >
       {/* Product Image - 3:4 aspect ratio */}
       <div className="aspect-[3/4] bg-background overflow-hidden mb-4">
         {imageUrl ? (
@@ -75,7 +84,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
         {/* Buy Button - Solid black, sharp corners */}
         <button 
           onClick={handleAddToCart}
-          className="w-full py-3 bg-foreground text-background text-xs tracking-[0.2em] uppercase font-medium opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-foreground/90"
+          className="w-full py-3 bg-foreground text-background text-xs tracking-[0.2em] uppercase font-medium opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-300 hover:bg-foreground/90"
         >
           Agregar
         </button>

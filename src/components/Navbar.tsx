@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { forwardRef, useEffect, useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import fuegoLogoSecondary from '@/assets/fuego-logo-secondary.png';
 import { CartDrawer } from './CartDrawer';
@@ -12,7 +12,7 @@ interface NavbarProps {
   onGoHome?: () => void;
 }
 
-const Navbar = ({ onGoHome }: NavbarProps) => {
+const Navbar = forwardRef<HTMLElement, NavbarProps>(({ onGoHome }, ref) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -55,6 +55,7 @@ const Navbar = ({ onGoHome }: NavbarProps) => {
 
   return (
     <nav
+      ref={ref}
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${
         isScrolled ? 'bg-white/95 backdrop-blur-sm shadow-sm' : 'bg-white'
       }`}
@@ -146,6 +147,8 @@ const Navbar = ({ onGoHome }: NavbarProps) => {
       </div>
     </nav>
   );
-};
+});
+
+Navbar.displayName = 'Navbar';
 
 export default Navbar;
