@@ -61,12 +61,12 @@ const ShopSection = () => {
   const activeCollectionData = collections.find(c => c.id === activeCollection);
 
   return (
-    <section id="shop" className="min-h-screen bg-background py-20 md:py-32 noise-overlay grid-pattern relative">
+    <section id="shop" className="min-h-screen bg-white py-20 md:py-32 relative">
       <div ref={sectionRef} className={`container max-w-6xl mx-auto px-6 transition-all duration-1000 ease-out relative z-10 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
         {/* Section Header */}
         <div className="mb-12 md:mb-16">
-          <h2 className="text-xs tracking-[0.4em] uppercase text-muted-foreground mb-6">
-            COLLETIONS
+          <h2 className="text-xs tracking-[0.4em] uppercase text-neutral-500 mb-6">
+            COLLECTIONS
           </h2>
           
           {/* Collection Tabs */}
@@ -77,8 +77,8 @@ const ShopSection = () => {
                 onClick={() => setActiveCollection(collection.id)}
                 className={`text-lg md:text-2xl font-light tracking-tight transition-all duration-300 pb-2 border-b-2 ${
                   activeCollection === collection.id
-                    ? 'text-foreground border-foreground'
-                    : 'text-muted-foreground border-transparent hover:text-foreground/70'
+                    ? 'text-neutral-900 border-neutral-900'
+                    : 'text-neutral-400 border-transparent hover:text-neutral-600'
                 }`}
               >
                 {collection.name}
@@ -90,12 +90,12 @@ const ShopSection = () => {
         {/* Products Grid */}
         {isLoading ? (
           <div className="flex items-center justify-center py-20">
-            <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+            <Loader2 className="h-8 w-8 animate-spin text-neutral-400" />
           </div>
         ) : products.length === 0 ? (
           <div className="text-center py-20">
-            <p className="text-muted-foreground text-lg mb-2">No hay productos disponibles</p>
-            <p className="text-sm text-muted-foreground/70">
+            <p className="text-neutral-500 text-lg mb-2">No hay productos disponibles</p>
+            <p className="text-sm text-neutral-400">
               Los productos aparecerán aquí cuando se agreguen a la tienda
             </p>
           </div>
