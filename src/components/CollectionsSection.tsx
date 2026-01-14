@@ -3,14 +3,14 @@ import { useEffect, useRef, useState } from "react";
 const collections = [
   {
     id: 1,
-    name: 'HECHO EN CANDELA',
-    description: 'Edición Limitada, no te quedes sin la tuya.',
+    name: 'BASICS',
+    description: 'Lo ideal para el día a día. Piezas atemporales.',
     season: 'SS25',
   },
   {
     id: 2,
-    name: 'BASICS',
-    description: 'Lo ideal para el día a día. Piezas atemporales.',
+    name: 'HECHO EN CANDELA',
+    description: 'Edición Limitada, no te quedes sin la tuya.',
     season: 'SS26',
   },
   {
