@@ -51,7 +51,7 @@ const ContactSection = () => {
   return (
     <section id="contact" className="min-h-screen bg-background py-20 md:py-32">
       <div ref={sectionRef} className={`container max-w-4xl mx-auto px-6 transition-all duration-1000 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-        <div className="space-y-12">
+        <div className="space-y-16">
           {/* Header */}
           <div className="text-center space-y-4">
             <h2 className="text-xs tracking-[0.4em] uppercase text-muted-foreground">
@@ -59,9 +59,6 @@ const ContactSection = () => {
             </h2>
             <p className="text-base md:text-lg font-light text-foreground/80 max-w-xl mx-auto">
               ¿Tienes preguntas sobre algún pedido, requieres información o necesitas soporte?
-            </p>
-            <p className="text-2xl md:text-3xl font-light text-foreground tracking-tight">
-              Contáctanos
             </p>
           </div>
 
@@ -86,6 +83,13 @@ const ContactSection = () => {
               <MessageCircle size={20} strokeWidth={1.5} className="group-hover:scale-110 transition-transform" />
               <span className="text-sm tracking-wide uppercase">COL</span>
             </a>
+          </div>
+
+          {/* Form intro */}
+          <div className="text-center">
+            <p className="text-lg md:text-xl font-light text-foreground/90">
+              O déjanos tu mensaje y te contactamos
+            </p>
           </div>
 
           {/* Contact Form */}
