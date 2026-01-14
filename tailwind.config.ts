@@ -15,6 +15,7 @@ export default {
     extend: {
       fontFamily: {
         sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Helvetica Neue', 'sans-serif'],
+        display: ['Space Grotesk', 'Inter', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -55,6 +56,7 @@ export default {
           mid: "hsl(var(--chrome-mid))",
           dark: "hsl(var(--chrome-dark))",
         },
+        "product-bg": "hsl(var(--product-bg))",
       },
       borderRadius: {
         lg: "var(--radius)",
