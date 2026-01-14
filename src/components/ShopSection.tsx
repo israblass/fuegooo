@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import ProductCard from './ProductCard';
 import { fetchProducts, ShopifyProduct } from '@/lib/shopify';
-import { Loader2 } from 'lucide-react';
-import hecBanner from '@/assets/hecho-en-candela-banner.png';
+import { Loader2, ChevronLeft, ChevronRight } from 'lucide-react';
+import heroHec from '@/assets/hero-hec.png';
+import { Button } from '@/components/ui/button';
 
 type CollectionKey = 'hecho-en-candela' | 'basics';
 
@@ -59,30 +60,58 @@ const ShopSection = () => {
     loadProducts();
   }, [activeCollection]);
 
-  const activeCollectionData = collections.find(c => c.id === activeCollection);
+  const scrollToProducts = () => {
+    const productsSection = document.getElementById('products-grid');
+    if (productsSection) {
+      productsSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
-    <section id="shop" className="min-h-screen bg-white pt-28 pb-8 md:pt-36 md:pb-12 relative">
-      {/* Smooth transition gradient from top */}
-      <div className="absolute top-0 left-0 right-0 h-20 bg-gradient-to-b from-neutral-100/50 to-transparent pointer-events-none" />
+    <section id="shop" className="bg-white">
+      {/* Hero Banner - Full screen style like TRUE shop */}
+      <div className="relative w-full h-[85vh] md:h-[90vh] overflow-hidden pt-14 md:pt-16">
+        {/* Background Image */}
+        <img 
+          src={heroHec} 
+          alt="FUEGO - Hecho en Candela" 
+          className="absolute inset-0 w-full h-full object-cover object-center"
+        />
+        
+        {/* Dark overlay for better text readability if needed */}
+        <div className="absolute inset-0 bg-black/10" />
+        
+        {/* Navigation Arrows */}
+        <button className="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center bg-white/90 rounded-full shadow-lg hover:bg-white transition-colors">
+          <ChevronLeft size={20} className="text-neutral-800" />
+        </button>
+        <button className="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center bg-white/90 rounded-full shadow-lg hover:bg-white transition-colors">
+          <ChevronRight size={20} className="text-neutral-800" />
+        </button>
 
-      <div ref={sectionRef} className={`container max-w-6xl mx-auto px-6 transition-all duration-1000 ease-out relative z-10 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-        {/* Section Header */}
-        <div className="mb-8 md:mb-12">
-          <h2 className="text-xs tracking-[0.4em] uppercase text-neutral-500 mb-6">
-            COLLECTIONS
-          </h2>
-          
-          {/* Collection Tabs */}
-          <div className="flex flex-wrap gap-4 md:gap-6">
+        {/* CTA Button at bottom */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
+          <Button 
+            onClick={scrollToProducts}
+            className="bg-neutral-900 hover:bg-neutral-800 text-white px-8 py-3 text-xs tracking-[0.2em] uppercase font-medium"
+          >
+            Shop Now
+          </Button>
+        </div>
+      </div>
+
+      {/* Collection Tabs - Horizontal scroll like TRUE shop */}
+      <div className="border-b border-neutral-200 bg-white sticky top-14 md:top-16 z-30">
+        <div className="container max-w-6xl mx-auto px-4 md:px-6">
+          <div className="flex gap-6 md:gap-8 overflow-x-auto scrollbar-hide py-4">
             {collections.map((collection) => (
               <button
                 key={collection.id}
                 onClick={() => setActiveCollection(collection.id)}
-                className={`text-lg md:text-2xl font-light tracking-tight transition-all duration-300 pb-2 border-b-2 ${
+                className={`whitespace-nowrap text-xs md:text-sm tracking-[0.1em] uppercase font-medium transition-all duration-300 pb-1 border-b-2 ${
                   activeCollection === collection.id
                     ? 'text-neutral-900 border-neutral-900'
-                    : 'text-neutral-400 border-transparent hover:text-neutral-600'
+                    : 'text-neutral-500 border-transparent hover:text-neutral-700'
                 }`}
               >
                 {collection.name}
@@ -90,7 +119,14 @@ const ShopSection = () => {
             ))}
           </div>
         </div>
+      </div>
 
+      {/* Products Section */}
+      <div 
+        id="products-grid"
+        ref={sectionRef} 
+        className={`container max-w-6xl mx-auto px-4 md:px-6 py-8 md:py-12 transition-all duration-1000 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+      >
         {/* Products Grid */}
         {isLoading ? (
           <div className="flex items-center justify-center py-20">
@@ -104,7 +140,7 @@ const ShopSection = () => {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             {products.map((product, index) => (
               <div
                 key={product.node.id}
@@ -116,17 +152,6 @@ const ShopSection = () => {
             ))}
           </div>
         )}
-      </div>
-
-      {/* Banner - Full width on mobile, after products */}
-      <div className="mt-8 md:mt-12 overflow-hidden md:mx-auto md:max-w-6xl md:px-6">
-        <div className="md:rounded-sm overflow-hidden">
-          <img 
-            src={hecBanner} 
-            alt="FUEGO Collection" 
-            className="w-full h-40 md:h-64 lg:h-80 object-cover"
-          />
-        </div>
       </div>
     </section>
   );
