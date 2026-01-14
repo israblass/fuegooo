@@ -55,7 +55,7 @@ const AboutSection = () => {
               FUEGO®️ es movimiento, es audacia y, sobre todo, es autenticidad.
             </p>
             <p className="text-foreground font-medium pt-4">
-              BIENVENIDO A LA CANDELA.
+              Bienvenido a la candela.
             </p>
           </div>
         </div>
