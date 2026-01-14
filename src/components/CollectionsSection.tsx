@@ -39,7 +39,16 @@ const CollectionsSection = () => {
   }, []);
 
   return (
-    <section id="collections" className="bg-background pt-6 pb-10 md:pt-8 md:pb-16 diagonal-lines radial-glow gradient-border relative">
+    <section id="collections" className="bg-background pt-0 pb-10 md:pb-16 diagonal-lines radial-glow gradient-border relative">
+      {/* Banner Image */}
+      <div className="w-full mb-10 md:mb-16">
+        <img 
+          src={bannerCandela} 
+          alt="FUEGO - Candela Banner" 
+          className="w-full h-auto object-cover md:max-h-[600px]"
+        />
+      </div>
+
       <div ref={sectionRef} className={`container max-w-6xl mx-auto px-6 transition-all duration-1000 ease-out relative z-10 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
         {/* Section Header */}
         <div className="mb-8 md:mb-12">
@@ -68,15 +77,6 @@ const CollectionsSection = () => {
             </div>
           ))}
         </div>
-      </div>
-
-      {/* Banner Image */}
-      <div className="w-full mt-10 md:mt-16">
-        <img 
-          src={bannerCandela} 
-          alt="FUEGO - Candela Banner" 
-          className="w-full h-auto object-cover md:max-h-[600px]"
-        />
       </div>
     </section>
   );
