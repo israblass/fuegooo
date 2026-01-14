@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react';
-import { ChevronDown } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import fuegoLogoSecondary from '@/assets/fuego-logo-secondary.png';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { CartDrawer } from './CartDrawer';
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+} from '@/components/ui/sheet';
 
 interface NavbarProps {
   onGoHome?: () => void;
@@ -15,6 +14,7 @@ interface NavbarProps {
 
 const Navbar = ({ onGoHome }: NavbarProps) => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -29,14 +29,28 @@ const Navbar = ({ onGoHome }: NavbarProps) => {
     if (section) {
       section.scrollIntoView({ behavior: 'smooth' });
     }
+    setIsOpen(false);
   };
 
-  const menuItems = [
-    { label: 'Home', action: () => onGoHome?.() },
+  const handleHomeClick = () => {
+    onGoHome?.();
+    setIsOpen(false);
+  };
+
+  const navLinks = [
     { label: 'Shop', action: () => scrollToSection('shop') },
     { label: 'Collections', action: () => scrollToSection('collections') },
-    { label: 'About Us', action: () => scrollToSection('about') },
+  ];
+
+  const rightLinks = [
+    { label: 'About', action: () => scrollToSection('about') },
     { label: 'Contact', action: () => scrollToSection('contact') },
+  ];
+
+  const allLinks = [
+    { label: 'Home', action: handleHomeClick },
+    ...navLinks,
+    ...rightLinks,
   ];
 
   return (
@@ -45,38 +59,90 @@ const Navbar = ({ onGoHome }: NavbarProps) => {
         isScrolled ? 'bg-white/95 backdrop-blur-sm shadow-sm' : 'bg-white'
       }`}
     >
-      <div className="container max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-        {/* Logo Dropdown */}
-        <DropdownMenu>
-          <DropdownMenuTrigger className="flex items-center gap-2 focus:outline-none group">
+      <div className="container max-w-6xl mx-auto px-4 md:px-6 py-3 md:py-4">
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex items-center justify-between">
+          {/* Left Links */}
+          <div className="flex items-center gap-6 flex-1">
+            <button
+              onClick={handleHomeClick}
+              className="text-[11px] tracking-[0.15em] uppercase text-neutral-600 hover:text-neutral-900 transition-colors"
+            >
+              Home
+            </button>
+            {navLinks.map((link) => (
+              <button
+                key={link.label}
+                onClick={link.action}
+                className="text-[11px] tracking-[0.15em] uppercase text-neutral-600 hover:text-neutral-900 transition-colors"
+              >
+                {link.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Center Logo */}
+          <div className="flex justify-center">
+            <button onClick={handleHomeClick} className="focus:outline-none">
+              <img
+                src={fuegoLogoSecondary}
+                alt="FUEGO"
+                className="h-10 w-auto object-contain"
+              />
+            </button>
+          </div>
+
+          {/* Right Links + Cart */}
+          <div className="flex items-center gap-6 flex-1 justify-end">
+            {rightLinks.map((link) => (
+              <button
+                key={link.label}
+                onClick={link.action}
+                className="text-[11px] tracking-[0.15em] uppercase text-neutral-600 hover:text-neutral-900 transition-colors"
+              >
+                {link.label}
+              </button>
+            ))}
+            <CartDrawer />
+          </div>
+        </div>
+
+        {/* Mobile Navigation */}
+        <div className="flex md:hidden items-center justify-between">
+          {/* Hamburger Menu */}
+          <Sheet open={isOpen} onOpenChange={setIsOpen}>
+            <SheetTrigger asChild>
+              <button className="p-1 focus:outline-none">
+                <Menu size={22} className="text-neutral-800" />
+              </button>
+            </SheetTrigger>
+            <SheetContent side="left" className="w-72 bg-white border-neutral-200">
+              <div className="flex flex-col gap-6 mt-8">
+                {allLinks.map((link) => (
+                  <button
+                    key={link.label}
+                    onClick={link.action}
+                    className="text-sm tracking-[0.15em] uppercase text-neutral-700 hover:text-neutral-900 transition-colors text-left"
+                  >
+                    {link.label}
+                  </button>
+                ))}
+              </div>
+            </SheetContent>
+          </Sheet>
+
+          {/* Center Logo */}
+          <button onClick={handleHomeClick} className="focus:outline-none absolute left-1/2 -translate-x-1/2">
             <img
               src={fuegoLogoSecondary}
               alt="FUEGO"
-              className="h-8 md:h-10 w-auto object-contain"
+              className="h-8 w-auto object-contain"
             />
-            <ChevronDown 
-              size={14} 
-              className="text-neutral-400 group-hover:text-neutral-900 transition-colors group-data-[state=open]:rotate-180 transition-transform duration-200" 
-            />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent 
-            align="start" 
-            className="w-48 bg-white border border-neutral-200 z-50 shadow-lg"
-          >
-            {menuItems.map((item) => (
-              <DropdownMenuItem
-                key={item.label}
-                onClick={item.action}
-                className="text-xs tracking-[0.15em] uppercase text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50 cursor-pointer py-3"
-              >
-                {item.label}
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
+          </button>
 
-        {/* Cart */}
-        <CartDrawer />
+          {/* Cart */}
+          <CartDrawer />
+        </div>
       </div>
     </nav>
   );

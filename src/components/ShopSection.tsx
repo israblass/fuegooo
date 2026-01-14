@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import ProductCard from './ProductCard';
 import { fetchProducts, ShopifyProduct } from '@/lib/shopify';
 import { Loader2 } from 'lucide-react';
-import hecBanner from '@/assets/hec-banner.png';
+import hecBanner from '@/assets/hecho-en-candela-banner.png';
 
 type CollectionKey = 'hecho-en-candela' | 'basics';
 
