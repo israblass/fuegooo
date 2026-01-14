@@ -30,9 +30,23 @@ const AboutSection = () => {
       
       <div ref={sectionRef} className="container max-w-4xl mx-auto px-6 relative z-10">
         <div className={`text-center transition-all duration-1000 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-light tracking-tight text-foreground">
-            FUEGO <span className="text-muted-foreground">–</span> EST. 2023
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-light tracking-tight text-foreground mb-10">
+            ABOUT US
           </h2>
+          <div className="space-y-6 text-base md:text-lg font-light text-foreground/80 leading-relaxed">
+            <p>
+              Creemos que lo que vistes es la expresión de tu energía interna. Nacimos para quienes no temen destacar, para los que viven con intensidad y para los que buscan dejar huella en cada paso.
+            </p>
+            <p>
+              Nuestras colecciones están diseñadas para encender tu confianza. No seguimos tendencias, creamos el combustible para tu propio estilo.
+            </p>
+            <p>
+              FUEGO®️ es movimiento, es audacia y, sobre todo, es autenticidad.
+            </p>
+            <p className="text-foreground font-medium pt-4">
+              Bienvenido a la candela.
+            </p>
+          </div>
         </div>
       </div>
     </section>
