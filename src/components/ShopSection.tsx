@@ -4,27 +4,12 @@ import { fetchProducts, ShopifyProduct } from '@/lib/shopify';
 import { Loader2 } from 'lucide-react';
 import heroHecMobile from '@/assets/hero-hec.png';
 import heroHecDesktop from '@/assets/hero-hec-desktop.png';
-import { Button } from '@/components/ui/button';
-
-type CollectionKey = 'hecho-en-candela' | 'basics';
-
-interface Collection {
-  id: CollectionKey;
-  name: string;
-  query?: string;
-}
-
-const collections: Collection[] = [
-  { id: 'hecho-en-candela', name: 'HECHO EN CANDELA', query: 'tag:hecho-en-candela' },
-  { id: 'basics', name: 'Basics', query: 'tag:basics' },
-];
 
 const ShopSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [products, setProducts] = useState<ShopifyProduct[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [activeCollection, setActiveCollection] = useState<CollectionKey>('hecho-en-candela');
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -48,8 +33,7 @@ const ShopSection = () => {
     const loadProducts = async () => {
       setIsLoading(true);
       try {
-        const collection = collections.find(c => c.id === activeCollection);
-        const data = await fetchProducts(20, collection?.query);
+        const data = await fetchProducts(20);
         setProducts(data);
       } catch (error) {
         console.error('Error fetching products:', error);
@@ -59,14 +43,7 @@ const ShopSection = () => {
     };
 
     loadProducts();
-  }, [activeCollection]);
-
-  const scrollToProducts = () => {
-    const productsSection = document.getElementById('products-grid');
-    if (productsSection) {
-      productsSection.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  }, []);
 
   return (
     <section id="shop" className="bg-white">
@@ -84,27 +61,6 @@ const ShopSection = () => {
           alt="FUEGO - Hecho en Candela" 
           className="hidden md:block w-full h-auto object-cover"
         />
-      </div>
-
-      {/* Collection Tabs - Horizontal scroll like TRUE shop */}
-      <div className="border-b border-neutral-200 bg-white sticky top-14 md:top-16 z-30">
-        <div className="container max-w-6xl mx-auto px-4 md:px-6">
-          <div className="flex gap-6 md:gap-8 overflow-x-auto scrollbar-hide py-4">
-            {collections.map((collection) => (
-              <button
-                key={collection.id}
-                onClick={() => setActiveCollection(collection.id)}
-                className={`whitespace-nowrap text-xs md:text-sm tracking-[0.1em] uppercase font-medium transition-all duration-300 pb-1 border-b-2 ${
-                  activeCollection === collection.id
-                    ? 'text-neutral-900 border-neutral-900'
-                    : 'text-neutral-500 border-transparent hover:text-neutral-700'
-                }`}
-              >
-                {collection.name}
-              </button>
-            ))}
-          </div>
-        </div>
       </div>
 
       {/* Products Section */}
