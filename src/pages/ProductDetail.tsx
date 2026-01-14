@@ -25,6 +25,9 @@ import truckerWine from '@/assets/trucker-wine.png';
 import truckerSand from '@/assets/trucker-sand.png';
 import truckerNavy from '@/assets/trucker-navy.png';
 
+// Import Black Hec image
+import blackHecBack from '@/assets/black-hec-back.png';
+
 // Dad Cap color to local image mapping
 const dadCapImageMap: Record<string, string> = {
   'Black': capBlack,
@@ -46,12 +49,28 @@ const truckerImageMap: Record<string, string> = {
   'Navy': truckerNavy,
 };
 
+// Black Hec default image
+const blackHecImageMap: Record<string, string> = {
+  'default': blackHecBack,
+};
+
 // Get the correct image map based on product handle
 const getImageMap = (handle: string): Record<string, string> => {
   if (handle === 'trucker-classic') {
     return truckerImageMap;
   }
+  if (handle === 'black-hec') {
+    return blackHecImageMap;
+  }
   return dadCapImageMap;
+};
+
+// Get image style based on product handle
+const getImageStyle = (handle: string): string => {
+  if (handle === 'dad-cap') {
+    return 'w-full h-full object-cover scale-150 transition-transform duration-500 hover:scale-[1.6]';
+  }
+  return 'w-full h-full object-cover transition-transform duration-500 hover:scale-110';
 };
 
 const ProductDetail = () => {
@@ -72,15 +91,21 @@ const ProductDetail = () => {
         const data = await fetchProductByHandle(handle);
         setProduct(data);
         
-        // Set initial image based on first variant color or first product image
+        // Set initial image based on product type and first variant color
         if (data && handle) {
           const imageMap = getImageMap(handle);
-          const firstVariant = data.variants?.edges?.[0]?.node;
-          const colorOption = firstVariant?.selectedOptions?.find(opt => opt.name === 'Color');
-          if (colorOption && imageMap[colorOption.value]) {
-            setCurrentImageUrl(imageMap[colorOption.value]);
-          } else if (data.images?.edges?.[0]?.node?.url) {
-            setCurrentImageUrl(data.images.edges[0].node.url);
+          
+          // For Black Hec, use the default back image
+          if (handle === 'black-hec' && imageMap['default']) {
+            setCurrentImageUrl(imageMap['default']);
+          } else {
+            const firstVariant = data.variants?.edges?.[0]?.node;
+            const colorOption = firstVariant?.selectedOptions?.find(opt => opt.name === 'Color');
+            if (colorOption && imageMap[colorOption.value]) {
+              setCurrentImageUrl(imageMap[colorOption.value]);
+            } else if (data.images?.edges?.[0]?.node?.url) {
+              setCurrentImageUrl(data.images.edges[0].node.url);
+            }
           }
         }
       } catch (error) {
@@ -179,12 +204,12 @@ const ProductDetail = () => {
           <div className="grid md:grid-cols-2 gap-12 lg:gap-20">
             {/* Main Image with Zoom Effect */}
             <div className="space-y-4">
-              <div className="aspect-square bg-muted/10 overflow-hidden cursor-zoom-in">
+              <div className="aspect-square bg-product-bg overflow-hidden cursor-zoom-in">
                 {currentImageUrl ? (
                   <img
                     src={currentImageUrl}
                     alt={product.title}
-                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+                    className={handle ? getImageStyle(handle) : 'w-full h-full object-cover transition-transform duration-500 hover:scale-110'}
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center text-muted-foreground">
