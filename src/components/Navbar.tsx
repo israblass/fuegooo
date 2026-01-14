@@ -41,7 +41,9 @@ const Navbar = ({ onGoHome }: NavbarProps) => {
 
   return (
     <nav
-      className="absolute top-0 left-0 right-0 z-40 bg-transparent"
+      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${
+        isScrolled ? 'bg-white/95 backdrop-blur-sm shadow-sm' : 'bg-white'
+      }`}
     >
       <div className="container max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo Dropdown */}
@@ -50,22 +52,22 @@ const Navbar = ({ onGoHome }: NavbarProps) => {
             <img
               src={fuegoLogoSecondary}
               alt="FUEGO"
-              className="h-8 md:h-10 w-auto object-contain invert"
+              className="h-8 md:h-10 w-auto object-contain"
             />
             <ChevronDown 
               size={14} 
-              className="text-foreground/60 group-hover:text-foreground transition-colors group-data-[state=open]:rotate-180 transition-transform duration-200" 
+              className="text-neutral-400 group-hover:text-neutral-900 transition-colors group-data-[state=open]:rotate-180 transition-transform duration-200" 
             />
           </DropdownMenuTrigger>
           <DropdownMenuContent 
             align="start" 
-            className="w-48 bg-background border border-border/20 z-50"
+            className="w-48 bg-white border border-neutral-200 z-50 shadow-lg"
           >
             {menuItems.map((item) => (
               <DropdownMenuItem
                 key={item.label}
                 onClick={item.action}
-                className="text-xs tracking-[0.15em] uppercase text-foreground/80 hover:text-foreground cursor-pointer py-3 focus:bg-muted/50"
+                className="text-xs tracking-[0.15em] uppercase text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50 cursor-pointer py-3"
               >
                 {item.label}
               </DropdownMenuItem>
