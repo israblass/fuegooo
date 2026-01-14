@@ -67,7 +67,7 @@ const ShopSection = () => {
       <div 
         id="products-grid"
         ref={sectionRef} 
-        className={`container max-w-6xl mx-auto px-4 md:px-6 py-8 md:py-12 transition-all duration-1000 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+        className={`container max-w-6xl mx-auto px-4 md:px-6 py-6 md:py-8 transition-all duration-1000 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
       >
         {/* Products Grid */}
         {isLoading ? (
