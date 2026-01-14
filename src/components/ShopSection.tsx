@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import ProductCard from './ProductCard';
 import { fetchProducts, ShopifyProduct } from '@/lib/shopify';
 import { Loader2 } from 'lucide-react';
-import heroHec from '@/assets/hero-hec.png';
+import heroHecMobile from '@/assets/hero-hec.png';
+import heroHecDesktop from '@/assets/hero-hec-desktop.png';
 import { Button } from '@/components/ui/button';
 
 type CollectionKey = 'hecho-en-candela' | 'basics';
@@ -69,12 +70,19 @@ const ShopSection = () => {
 
   return (
     <section id="shop" className="bg-white">
-      {/* Hero Section - Full Image */}
+      {/* Hero Section - Responsive Art Direction */}
       <div className="w-full pt-14 md:pt-16">
+        {/* Mobile Image - vertical motorbike */}
         <img 
-          src={heroHec} 
+          src={heroHecMobile} 
           alt="FUEGO - Hecho en Candela" 
-          className="w-full h-auto object-contain"
+          className="w-full h-auto object-contain md:hidden"
+        />
+        {/* Desktop Image - horizontal banner */}
+        <img 
+          src={heroHecDesktop} 
+          alt="FUEGO - Hecho en Candela" 
+          className="hidden md:block w-full h-auto object-cover"
         />
       </div>
 
