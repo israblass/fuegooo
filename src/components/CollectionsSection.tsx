@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import bannerCandela from "@/assets/hec-banner.png";
+import bannerCandela from "@/assets/banner-collections.jpg";
 
 const collections = [
   {
