@@ -61,7 +61,9 @@ const ShopSection = () => {
   const activeCollectionData = collections.find(c => c.id === activeCollection);
 
   return (
-    <section id="shop" className="min-h-screen bg-white py-20 md:py-32 relative">
+    <section id="shop" className="min-h-screen bg-white pt-28 pb-20 md:pt-36 md:pb-32 relative">
+      {/* Smooth transition gradient from top */}
+      <div className="absolute top-0 left-0 right-0 h-20 bg-gradient-to-b from-neutral-100/50 to-transparent pointer-events-none" />
       <div ref={sectionRef} className={`container max-w-6xl mx-auto px-6 transition-all duration-1000 ease-out relative z-10 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
         {/* Section Header */}
         <div className="mb-12 md:mb-16">

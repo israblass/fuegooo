@@ -136,7 +136,7 @@ const IntroGate = ({ onEnter }: IntroGateProps) => {
       {/* Shop Button */}
       <button
         onClick={handleEnter}
-        className="px-12 py-4 bg-white text-black text-xs tracking-[0.3em] uppercase font-medium hover:bg-white/90 transition-all duration-300 animate-fade-in mt-6"
+        className="px-12 py-4 bg-neutral-900 text-white text-xs tracking-[0.3em] uppercase font-medium border border-white/20 hover:bg-neutral-800 transition-all duration-300 animate-fade-in mt-6"
         style={{ animationDelay: '0.55s', opacity: 0 }}
       >
         Shop
