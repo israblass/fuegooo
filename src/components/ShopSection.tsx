@@ -48,10 +48,10 @@ const ShopSection = () => {
         {/* Section Header */}
         <div className="mb-16 md:mb-24">
           <h2 className="text-xs tracking-[0.4em] uppercase text-muted-foreground mb-2">
-            Colección
+            COLLETIONS
           </h2>
           <p className="text-2xl md:text-3xl font-light text-foreground tracking-tight">
-            The Essentials
+            Basics
           </p>
         </div>
 
