@@ -1,5 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
-import SplashScreen from '@/components/SplashScreen';
+import { useEffect, useState } from 'react';
 import IntroGate from '@/components/IntroGate';
 import Navbar from '@/components/Navbar';
 import ShopSection from '@/components/ShopSection';
@@ -12,10 +11,8 @@ const INTRO_DONE_KEY = 'fuego_intro_done';
 const SCROLL_Y_KEY = 'fuego_scroll_y';
 
 const Index = () => {
-  // Always show splash on fresh page load (not stored in sessionStorage)
-  const [showSplash, setShowSplash] = useState(true);
   const [showIntro, setShowIntro] = useState(() => {
-    // If user already entered once in this session, don't show intro again
+    // If user already entered once in this session, don’t show intro again
     return sessionStorage.getItem(INTRO_DONE_KEY) !== '1';
   });
 
@@ -34,10 +31,6 @@ const Index = () => {
     });
   }, [showIntro]);
 
-  const handleSplashComplete = useCallback(() => {
-    setShowSplash(false);
-  }, []);
-
   const handleEnter = () => {
     sessionStorage.setItem(INTRO_DONE_KEY, '1');
     setShowIntro(false);
@@ -52,18 +45,14 @@ const Index = () => {
 
   const handleGoHome = () => {
     sessionStorage.removeItem(INTRO_DONE_KEY);
-    setShowSplash(true);
     setShowIntro(true);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Premium Splash Screen */}
-      {showSplash && <SplashScreen onComplete={handleSplashComplete} />}
-
       {/* Intro Gate */}
-      {showIntro && !showSplash && <IntroGate onEnter={handleEnter} />}
+      {showIntro && <IntroGate onEnter={handleEnter} />}
 
       {/* Navbar - only visible after intro */}
       {!showIntro && <Navbar onGoHome={handleGoHome} />}
