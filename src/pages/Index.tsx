@@ -12,10 +12,8 @@ const INTRO_DONE_KEY = 'fuego_intro_done';
 const SCROLL_Y_KEY = 'fuego_scroll_y';
 
 const Index = () => {
-  const [showSplash, setShowSplash] = useState(() => {
-    // Only show splash if intro hasn't been completed
-    return sessionStorage.getItem(INTRO_DONE_KEY) !== '1';
-  });
+  // Always show splash on fresh page load (not stored in sessionStorage)
+  const [showSplash, setShowSplash] = useState(true);
   const [showIntro, setShowIntro] = useState(() => {
     // If user already entered once in this session, don't show intro again
     return sessionStorage.getItem(INTRO_DONE_KEY) !== '1';
