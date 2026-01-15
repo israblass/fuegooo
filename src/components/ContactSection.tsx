@@ -59,18 +59,6 @@ const ContactSection = () => {
             </p>
           </div>
 
-          {/* WhatsApp Links */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-            <a href="https://wa.me/584220078811" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-foreground/70 hover:text-foreground transition-colors duration-300 group">
-              <MessageCircle size={20} strokeWidth={1.5} className="group-hover:scale-110 transition-transform" />
-              <span className="text-sm tracking-wide uppercase">VEN</span>
-            </a>
-
-            <a href="https://wa.me/573150612919" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-foreground/70 hover:text-foreground transition-colors duration-300 group">
-              <MessageCircle size={20} strokeWidth={1.5} className="group-hover:scale-110 transition-transform" />
-              <span className="text-sm tracking-wide uppercase">COL</span>
-            </a>
-          </div>
 
           {/* Form intro */}
           <div className="text-center">
