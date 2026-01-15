@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
-import fuegoLogoVideo from '@/assets/fuego-intro-animation.mp4';
+import Lottie from 'lottie-react';
 
 interface IntroGateProps {
   onEnter: () => void;
@@ -11,7 +11,15 @@ const IntroGate = ({ onEnter }: IntroGateProps) => {
   const [isExiting, setIsExiting] = useState(false);
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [animationData, setAnimationData] = useState<unknown>(null);
   const { toast } = useToast();
+
+  useEffect(() => {
+    fetch('/fuego-animation.json')
+      .then(res => res.json())
+      .then(data => setAnimationData(data))
+      .catch(err => console.error('Error loading animation:', err));
+  }, []);
 
   const handleEnter = () => {
     setIsExiting(true);
@@ -86,18 +94,18 @@ const IntroGate = ({ onEnter }: IntroGateProps) => {
       {/* Decorative top line */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-24 bg-gradient-to-b from-transparent via-white/20 to-transparent animate-fade-in" style={{ animationDelay: '0.1s' }} />
 
-      {/* Animated Logo Video */}
+      {/* Animated Logo Lottie */}
       <div 
         className="mb-8 opacity-0 animate-[fadeIn_1.5s_ease-out_0.3s_forwards]"
       >
-        <video
-          src={fuegoLogoVideo}
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="w-72 md:w-96 lg:w-[28rem] h-auto object-contain"
-        />
+        {animationData && (
+          <Lottie
+            animationData={animationData}
+            loop={true}
+            autoplay={true}
+            className="w-72 md:w-96 lg:w-[28rem] h-auto"
+          />
+        )}
       </div>
 
       {/* Tagline below logo */}
