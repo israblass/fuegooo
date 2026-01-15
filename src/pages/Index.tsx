@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import SplashScreen from '@/components/SplashScreen';
 import IntroGate from '@/components/IntroGate';
 import Navbar from '@/components/Navbar';
@@ -34,9 +34,9 @@ const Index = () => {
     });
   }, [showIntro]);
 
-  const handleSplashComplete = () => {
+  const handleSplashComplete = useCallback(() => {
     setShowSplash(false);
-  };
+  }, []);
 
   const handleEnter = () => {
     sessionStorage.setItem(INTRO_DONE_KEY, '1');
