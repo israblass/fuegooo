@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import Preloader from '@/components/Preloader';
 import IntroGate from '@/components/IntroGate';
 import Navbar from '@/components/Navbar';
 import ShopSection from '@/components/ShopSection';
@@ -9,32 +10,39 @@ import Footer from '@/components/Footer';
 
 const INTRO_DONE_KEY = 'fuego_intro_done';
 const SCROLL_Y_KEY = 'fuego_scroll_y';
+const PRELOADER_DONE_KEY = 'fuego_preloader_done';
 
 const Index = () => {
+  const [showPreloader, setShowPreloader] = useState(() => {
+    return sessionStorage.getItem(PRELOADER_DONE_KEY) !== '1';
+  });
+  
   const [showIntro, setShowIntro] = useState(() => {
-    // If user already entered once in this session, don’t show intro again
     return sessionStorage.getItem(INTRO_DONE_KEY) !== '1';
   });
 
   useEffect(() => {
-    if (showIntro) return;
+    if (showIntro || showPreloader) return;
 
     const savedScrollY = sessionStorage.getItem(SCROLL_Y_KEY);
     if (!savedScrollY) return;
 
-    // Restore scroll after route change back from product page
     const y = Number(savedScrollY);
     sessionStorage.removeItem(SCROLL_Y_KEY);
 
     requestAnimationFrame(() => {
       window.scrollTo({ top: Number.isFinite(y) ? y : 0, behavior: 'auto' });
     });
-  }, [showIntro]);
+  }, [showIntro, showPreloader]);
+
+  const handlePreloaderComplete = () => {
+    sessionStorage.setItem(PRELOADER_DONE_KEY, '1');
+    setShowPreloader(false);
+  };
 
   const handleEnter = () => {
     sessionStorage.setItem(INTRO_DONE_KEY, '1');
     setShowIntro(false);
-    // Smooth scroll to shop section
     setTimeout(() => {
       const shopSection = document.getElementById('shop');
       if (shopSection) {
@@ -51,11 +59,14 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Preloader Video */}
+      {showPreloader && <Preloader onComplete={handlePreloaderComplete} />}
+
       {/* Intro Gate */}
-      {showIntro && <IntroGate onEnter={handleEnter} />}
+      {!showPreloader && showIntro && <IntroGate onEnter={handleEnter} />}
 
       {/* Navbar - only visible after intro */}
-      {!showIntro && <Navbar onGoHome={handleGoHome} />}
+      {!showPreloader && !showIntro && <Navbar onGoHome={handleGoHome} />}
 
       {/* Main Content */}
       <main>
