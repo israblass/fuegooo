@@ -13,16 +13,14 @@ const SCROLL_Y_KEY = 'fuego_scroll_y';
 const PRELOADER_DONE_KEY = 'fuego_preloader_done';
 
 const Index = () => {
-  // Check session storage synchronously on mount
   const preloaderAlreadyDone = sessionStorage.getItem(PRELOADER_DONE_KEY) === '1';
   const introAlreadyDone = sessionStorage.getItem(INTRO_DONE_KEY) === '1';
 
   const [showPreloader, setShowPreloader] = useState(!preloaderAlreadyDone);
   const [showIntro, setShowIntro] = useState(!introAlreadyDone);
-  const [isReady, setIsReady] = useState(preloaderAlreadyDone);
 
   useEffect(() => {
-    if (!isReady || showIntro) return;
+    if (showPreloader || showIntro) return;
 
     const savedScrollY = sessionStorage.getItem(SCROLL_Y_KEY);
     if (!savedScrollY) return;
@@ -33,12 +31,11 @@ const Index = () => {
     requestAnimationFrame(() => {
       window.scrollTo({ top: Number.isFinite(y) ? y : 0, behavior: 'auto' });
     });
-  }, [isReady, showIntro]);
+  }, [showPreloader, showIntro]);
 
   const handlePreloaderComplete = () => {
     sessionStorage.setItem(PRELOADER_DONE_KEY, '1');
     setShowPreloader(false);
-    setIsReady(true);
   };
 
   const handleEnter = () => {
@@ -58,21 +55,19 @@ const Index = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Show preloader first
-  if (showPreloader) {
-    return <Preloader onComplete={handlePreloaderComplete} />;
-  }
-
   return (
-    <div className="min-h-screen bg-background">
-      {/* Intro Gate */}
+    <div className="min-h-screen bg-black">
+      {/* IntroGate - rendered behind preloader so it's ready when preloader fades */}
       {showIntro && <IntroGate onEnter={handleEnter} />}
+
+      {/* Preloader Video - highest z-index, covers everything */}
+      {showPreloader && <Preloader onComplete={handlePreloaderComplete} />}
 
       {/* Navbar - only visible after intro */}
       {!showIntro && <Navbar onGoHome={handleGoHome} />}
 
       {/* Main Content */}
-      <main>
+      <main className="bg-background">
         <ShopSection />
         <CollectionsSection />
         <AboutSection />
