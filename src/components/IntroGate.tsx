@@ -83,8 +83,7 @@ const IntroGate = ({ onEnter }: IntroGateProps) => {
         isExiting ? 'animate-slide-up-exit' : ''
       }`}
     >
-      {/* Decorative top line */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-24 bg-gradient-to-b from-transparent via-white/20 to-transparent animate-fade-in" style={{ animationDelay: '0.1s' }} />
+      {/* Removed decorative top line */}
 
       {/* Animated Logo Video */}
       <div 
