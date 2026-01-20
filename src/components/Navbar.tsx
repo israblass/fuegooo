@@ -1,4 +1,5 @@
 import { forwardRef, useEffect, useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Menu, ChevronDown } from 'lucide-react';
 import fuegoLogoSecondary from '@/assets/fuego-logo-secondary.png';
 import { CartDrawer } from './CartDrawer';
@@ -21,6 +22,10 @@ interface NavbarProps {
 const Navbar = forwardRef<HTMLElement, NavbarProps>(({ onGoHome }, ref) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const isOnHomePage = location.pathname === '/';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -30,17 +35,35 @@ const Navbar = forwardRef<HTMLElement, NavbarProps>(({ onGoHome }, ref) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const scrollToSection = (sectionId: string) => {
-    const section = document.getElementById(sectionId);
-    if (section) {
-      section.scrollIntoView({ behavior: 'smooth' });
-    }
+  const navigateToSection = (sectionId: string) => {
     setIsOpen(false);
+    
+    if (isOnHomePage) {
+      // Already on home page, just scroll
+      const section = document.getElementById(sectionId);
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      // Navigate to home page with section hash
+      navigate(`/#${sectionId}`);
+      // After navigation, scroll to section
+      setTimeout(() => {
+        const section = document.getElementById(sectionId);
+        if (section) {
+          section.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    }
   };
 
   const handleHomeClick = () => {
-    onGoHome?.();
     setIsOpen(false);
+    if (isOnHomePage && onGoHome) {
+      onGoHome();
+    } else {
+      navigate('/');
+    }
   };
 
   const collections = [
@@ -49,14 +72,14 @@ const Navbar = forwardRef<HTMLElement, NavbarProps>(({ onGoHome }, ref) => {
   ];
 
   const rightLinks = [
-    { label: 'About', action: () => scrollToSection('about') },
-    { label: 'Contact', action: () => scrollToSection('contact') },
+    { label: 'About', action: () => navigateToSection('about') },
+    { label: 'Contact', action: () => navigateToSection('contact') },
   ];
 
   const allLinks = [
     { label: 'Home', action: handleHomeClick },
-    { label: 'Shop', action: () => scrollToSection('shop') },
-    { label: 'Collections', action: () => scrollToSection('collections') },
+    { label: 'Shop', action: () => navigateToSection('shop') },
+    { label: 'Collections', action: () => navigateToSection('collections') },
     ...rightLinks,
   ];
 
@@ -79,7 +102,7 @@ const Navbar = forwardRef<HTMLElement, NavbarProps>(({ onGoHome }, ref) => {
               Home
             </button>
             <button
-              onClick={() => scrollToSection('shop')}
+              onClick={() => navigateToSection('shop')}
               className="text-[11px] tracking-[0.15em] uppercase text-neutral-600 hover:text-neutral-900 transition-colors"
             >
               Shop
@@ -95,7 +118,7 @@ const Navbar = forwardRef<HTMLElement, NavbarProps>(({ onGoHome }, ref) => {
                 {collections.map((collection) => (
                   <DropdownMenuItem
                     key={collection.id}
-                    onClick={() => scrollToSection('collections')}
+                    onClick={() => navigateToSection('collections')}
                     className="text-[11px] tracking-[0.15em] uppercase text-neutral-600 hover:text-neutral-900 cursor-pointer"
                   >
                     {collection.label}
