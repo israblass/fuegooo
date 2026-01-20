@@ -17,6 +17,7 @@ const Index = () => {
   // Always show preloader on page load
   const [showPreloader, setShowPreloader] = useState(true);
   const [showIntro, setShowIntro] = useState(!introAlreadyDone);
+  const [pendingAction, setPendingAction] = useState<'enterShop' | 'goHome' | null>(null);
 
   useEffect(() => {
     if (showPreloader || showIntro) return;
@@ -33,31 +34,55 @@ const Index = () => {
   }, [showPreloader, showIntro]);
 
   const handlePreloaderComplete = () => {
+    // Resolve any pending transition only AFTER the preloader has finished.
+    if (pendingAction === 'enterShop') {
+      sessionStorage.setItem(INTRO_DONE_KEY, '1');
+      setShowIntro(false);
+      setPendingAction(null);
+
+      // Ensure we land on the shop section.
+      requestAnimationFrame(() => {
+        document.getElementById('shop')?.scrollIntoView({ behavior: 'auto' });
+      });
+    }
+
+    if (pendingAction === 'goHome') {
+      sessionStorage.removeItem(INTRO_DONE_KEY);
+      setShowIntro(true);
+      setPendingAction(null);
+
+      requestAnimationFrame(() => {
+        window.scrollTo({ top: 0, behavior: 'auto' });
+      });
+    }
+
     setShowPreloader(false);
   };
 
-  const handleEnter = () => {
-    // First hide intro immediately, then show preloader
-    setShowIntro(false);
-    sessionStorage.setItem(INTRO_DONE_KEY, '1');
+  const handleBeginEnterShop = () => {
+    // Start preloader FIRST so the shop never flashes before the animation.
+    setPendingAction('enterShop');
     setShowPreloader(true);
   };
 
+  const handleEnter = () => {
+    // No-op: the actual switch to shop happens inside handlePreloaderComplete.
+  };
+
   const handleGoHome = () => {
-    // Show preloader when going back to home
+    setPendingAction('goHome');
     setShowPreloader(true);
-    sessionStorage.removeItem(INTRO_DONE_KEY);
-    
-    setTimeout(() => {
-      setShowIntro(true);
-      window.scrollTo({ top: 0, behavior: 'auto' });
-    }, 100);
   };
 
   return (
     <div className="min-h-screen bg-black">
       {/* IntroGate - rendered behind preloader so it's ready when preloader fades */}
-      {showIntro && <IntroGate onEnter={handleEnter} />}
+      {showIntro && (
+        <IntroGate
+          onBeginEnter={() => setShowPreloader(true)}
+          onEnter={handleEnter}
+        />
+      )}
 
       {/* Preloader Video - highest z-index, covers everything */}
       {showPreloader && <Preloader onComplete={handlePreloaderComplete} />}

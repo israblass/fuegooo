@@ -196,7 +196,7 @@ const ProductDetail = () => {
     <div className="min-h-screen bg-background">
       <Navbar onGoHome={() => {}} />
       
-      <main className="pt-24 pb-20">
+      <main className="pt-32 md:pt-48 pb-20">
         <div className="container max-w-6xl mx-auto px-6">
           {/* Back Button - More visible */}
           <button 
