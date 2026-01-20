@@ -56,10 +56,38 @@ const Navbar = ({ onGoHome }: NavbarProps) => {
 
   const handleHomeClick = () => {
     setIsOpen(false);
-    if (isOnHomePage && onGoHome) {
-      onGoHome();
+    // Home should go to the shop section, NOT the IntroGate landing
+    if (isOnHomePage) {
+      // Just scroll to top of the shop section
+      const shopSection = document.getElementById('shop');
+      if (shopSection) {
+        shopSection.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     } else {
       navigate('/');
+    }
+  };
+
+  // Navigate to a specific collection (filter products by tag)
+  const handleCollectionClick = (collectionId: string) => {
+    setIsOpen(false);
+    // For now, collections navigate to the shop section
+    // The shop section can be extended to filter by collection tag
+    if (isOnHomePage) {
+      const shopSection = document.getElementById('shop');
+      if (shopSection) {
+        shopSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      navigate('/#shop');
+      setTimeout(() => {
+        const shopSection = document.getElementById('shop');
+        if (shopSection) {
+          shopSection.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
     }
   };
 
@@ -102,7 +130,7 @@ const Navbar = ({ onGoHome }: NavbarProps) => {
                 {collections.map((collection) => (
                   <DropdownMenuItem
                     key={collection.id}
-                    onClick={() => navigateToSection('collections')}
+                    onClick={() => handleCollectionClick(collection.id)}
                     className="text-[11px] tracking-[0.15em] uppercase text-neutral-600 hover:text-neutral-900 cursor-pointer"
                   >
                     {collection.label}
@@ -165,7 +193,7 @@ const Navbar = ({ onGoHome }: NavbarProps) => {
                   Shop
                 </button>
                 <button
-                  onClick={() => navigateToSection('collections')}
+                  onClick={() => handleCollectionClick('all')}
                   className="text-sm tracking-[0.15em] uppercase text-neutral-700 hover:text-neutral-900 transition-colors text-left"
                 >
                   Collections
