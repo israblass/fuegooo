@@ -5,15 +5,18 @@ import fuegoLogoVideo from '@/assets/fuego-intro-animation.mp4';
 
 interface IntroGateProps {
   onEnter: () => void;
+  /** Fires immediately when user clicks Shop, before the exit animation finishes */
+  onBeginEnter?: () => void;
 }
 
-const IntroGate = ({ onEnter }: IntroGateProps) => {
+const IntroGate = ({ onEnter, onBeginEnter }: IntroGateProps) => {
   const [isExiting, setIsExiting] = useState(false);
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
   const handleEnter = () => {
+    onBeginEnter?.();
     setIsExiting(true);
     setTimeout(() => {
       onEnter();
