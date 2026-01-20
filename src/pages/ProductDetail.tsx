@@ -3,75 +3,15 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { fetchProductByHandle, ShopifyProduct } from '@/lib/shopify';
 import { useCartStore } from '@/stores/cartStore';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Loader2, Minus, Plus, ShoppingCart } from 'lucide-react';
+import { ArrowLeft, Loader2, Minus, Plus, ShoppingCart, ChevronLeft, ChevronRight } from 'lucide-react';
 import { toast } from 'sonner';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
-// Import local cap images for Dad Cap color mapping
-import capBlack from '@/assets/cap-black.png';
-import capSand from '@/assets/cap-sand.png';
-import capPink from '@/assets/cap-pink.png';
-import capRed from '@/assets/cap-red.png';
-import capMilitaryGreen from '@/assets/cap-military-green.png';
-import capRoyalBlue from '@/assets/cap-royal-blue.png';
-import capWashedBlack from '@/assets/cap-washed-black.png';
-
-// Import Trucker Classic images
-import truckerBlack from '@/assets/trucker-black-white.png';
-import truckerFullBlack from '@/assets/trucker-full-black.png';
-import truckerWhite from '@/assets/trucker-white.png';
-import truckerWine from '@/assets/trucker-wine.png';
-import truckerSand from '@/assets/trucker-sand.png';
-import truckerNavy from '@/assets/trucker-navy.png';
-
-// Import Black Hec image
-import blackHecBack from '@/assets/black-hec-back.png';
-
-// Dad Cap color to local image mapping
-const dadCapImageMap: Record<string, string> = {
-  'Black': capBlack,
-  'Sand': capSand,
-  'Pink': capPink,
-  'Red': capRed,
-  'Military Green': capMilitaryGreen,
-  'Royal Blue': capRoyalBlue,
-  'Washed Black': capWashedBlack,
-};
-
-// Trucker Classic color to local image mapping
-const truckerImageMap: Record<string, string> = {
-  'Black': truckerBlack,
-  'Full Black': truckerFullBlack,
-  'Classic White': truckerWhite,
-  'Wine': truckerWine,
-  'Sand': truckerSand,
-  'Navy': truckerNavy,
-};
-
-// Black Hec default image
-const blackHecImageMap: Record<string, string> = {
-  'default': blackHecBack,
-};
-
-// Get the correct image map based on product handle
-const getImageMap = (handle: string): Record<string, string> => {
-  if (handle === 'trucker-classic') {
-    return truckerImageMap;
-  }
-  if (handle === 'black-hec') {
-    return blackHecImageMap;
-  }
-  return dadCapImageMap;
-};
-
-// Get image style based on product handle
-const getImageStyle = (handle: string): string => {
-  if (handle === 'dad-cap') {
-    return 'w-full h-full object-cover scale-150 transition-transform duration-500 hover:scale-[1.6]';
-  }
-  return 'w-full h-full object-cover transition-transform duration-500 hover:scale-110';
-};
+interface ProductImage {
+  url: string;
+  altText: string | null;
+}
 
 const ProductDetail = () => {
   const { handle } = useParams<{ handle: string }>();
@@ -80,12 +20,13 @@ const ProductDetail = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
-  const [currentImageUrl, setCurrentImageUrl] = useState<string | null>(null);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [productImages, setProductImages] = useState<ProductImage[]>([]);
   
   const addItem = useCartStore(state => state.addItem);
 
   useEffect(() => {
-    // Ensure the intro gate doesn’t re-appear when navigating back to "/"
+    // Ensure the intro gate doesn't re-appear when navigating back to "/"
     sessionStorage.setItem('fuego_intro_done', '1');
   }, []);
 
@@ -97,22 +38,14 @@ const ProductDetail = () => {
         const data = await fetchProductByHandle(handle);
         setProduct(data);
         
-        // Set initial image based on product type and first variant color
-        if (data && handle) {
-          const imageMap = getImageMap(handle);
-          
-          // For Black Hec, use the default back image
-          if (handle === 'black-hec' && imageMap['default']) {
-            setCurrentImageUrl(imageMap['default']);
-          } else {
-            const firstVariant = data.variants?.edges?.[0]?.node;
-            const colorOption = firstVariant?.selectedOptions?.find(opt => opt.name === 'Color');
-            if (colorOption && imageMap[colorOption.value]) {
-              setCurrentImageUrl(imageMap[colorOption.value]);
-            } else if (data.images?.edges?.[0]?.node?.url) {
-              setCurrentImageUrl(data.images.edges[0].node.url);
-            }
-          }
+        // Extract all images from Shopify
+        if (data?.images?.edges) {
+          const images: ProductImage[] = data.images.edges.map((edge: { node: { url: string; altText: string | null } }) => ({
+            url: edge.node.url,
+            altText: edge.node.altText,
+          }));
+          setProductImages(images);
+          setSelectedImageIndex(0);
         }
       } catch (error) {
         console.error('Error fetching product:', error);
@@ -124,19 +57,23 @@ const ProductDetail = () => {
     loadProduct();
   }, [handle]);
 
-  // Update image when variant changes
+  // Update image when variant changes (if variant has specific image)
   const handleVariantChange = (variantIndex: number) => {
     setSelectedVariantIndex(variantIndex);
-    
-    if (product && handle) {
-      const imageMap = getImageMap(handle);
-      const variant = product.variants?.edges?.[variantIndex]?.node;
-      const colorOption = variant?.selectedOptions?.find(opt => opt.name === 'Color');
-      
-      if (colorOption && imageMap[colorOption.value]) {
-        setCurrentImageUrl(imageMap[colorOption.value]);
-      }
-    }
+    // Reset to first image when variant changes
+    setSelectedImageIndex(0);
+  };
+
+  const handlePrevImage = () => {
+    setSelectedImageIndex((prev) => 
+      prev === 0 ? productImages.length - 1 : prev - 1
+    );
+  };
+
+  const handleNextImage = () => {
+    setSelectedImageIndex((prev) => 
+      prev === productImages.length - 1 ? 0 : prev + 1
+    );
   };
 
   if (isLoading) {
@@ -161,6 +98,7 @@ const ProductDetail = () => {
   }
 
   const selectedVariant = product.variants?.edges?.[selectedVariantIndex]?.node;
+  const currentImage = productImages[selectedImageIndex];
 
   const formatPrice = (amount: string, currency: string) => {
     return new Intl.NumberFormat('es-CO', {
@@ -198,7 +136,7 @@ const ProductDetail = () => {
       
       <main className="pt-32 md:pt-48 pb-20">
         <div className="container max-w-6xl mx-auto px-6">
-          {/* Back Button - More visible */}
+          {/* Back Button */}
           <button 
             onClick={() => {
               if (window.history.length > 1) navigate(-1);
@@ -211,21 +149,66 @@ const ProductDetail = () => {
           </button>
 
           <div className="grid md:grid-cols-2 gap-12 lg:gap-20">
-            {/* Main Image with Zoom Effect */}
+            {/* Image Gallery */}
             <div className="space-y-4">
-              <div className="aspect-square bg-product-bg overflow-hidden cursor-zoom-in">
-                {currentImageUrl ? (
+              {/* Main Image with Navigation Arrows */}
+              <div className="aspect-square bg-product-bg overflow-hidden relative group">
+                {currentImage ? (
                   <img
-                    src={currentImageUrl}
-                    alt={product.title}
-                    className={handle ? getImageStyle(handle) : 'w-full h-full object-cover transition-transform duration-500 hover:scale-110'}
+                    src={currentImage.url}
+                    alt={currentImage.altText || product.title}
+                    className="w-full h-full object-contain transition-transform duration-500 hover:scale-105"
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center text-muted-foreground">
                     Sin imagen
                   </div>
                 )}
+                
+                {/* Navigation Arrows - Only show if multiple images */}
+                {productImages.length > 1 && (
+                  <>
+                    <button
+                      onClick={handlePrevImage}
+                      className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-background/80 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-background"
+                      aria-label="Imagen anterior"
+                    >
+                      <ChevronLeft size={24} />
+                    </button>
+                    <button
+                      onClick={handleNextImage}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-background/80 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-background"
+                      aria-label="Siguiente imagen"
+                    >
+                      <ChevronRight size={24} />
+                    </button>
+                  </>
+                )}
               </div>
+              
+              {/* Thumbnail Gallery - Only show if multiple images */}
+              {productImages.length > 1 && (
+                <div className="flex gap-3 overflow-x-auto pb-2">
+                  {productImages.map((image, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setSelectedImageIndex(index)}
+                      className={`flex-shrink-0 w-20 h-20 bg-product-bg overflow-hidden border-2 transition-all duration-200 ${
+                        selectedImageIndex === index
+                          ? 'border-foreground'
+                          : 'border-transparent hover:border-muted-foreground/50'
+                      }`}
+                      aria-label={`Ver imagen ${index + 1}`}
+                    >
+                      <img
+                        src={image.url}
+                        alt={image.altText || `${product.title} - Vista ${index + 1}`}
+                        className="w-full h-full object-contain"
+                      />
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Product Info */}
@@ -253,7 +236,7 @@ const ProductDetail = () => {
                 </p>
               ) : null}
 
-              {/* Variant Options - Color buttons now change image */}
+              {/* Variant Options */}
               {product.options && product.options.length > 0 && product.options[0].name !== "Title" && (
                 <div className="space-y-4">
                   {product.options.map((option) => (

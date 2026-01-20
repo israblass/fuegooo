@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ShopifyProduct } from '@/lib/shopify';
 import { useCartStore } from '@/stores/cartStore';
@@ -12,10 +13,19 @@ interface ProductCardProps {
 const ProductCard = ({ product }: ProductCardProps) => {
   const addItem = useCartStore(state => state.addItem);
   const { node } = product;
+  const [isHovered, setIsHovered] = useState(false);
+  const [isTapped, setIsTapped] = useState(false);
   
-  const imageUrl = node.images?.edges?.[0]?.node?.url;
+  // Get front (first) and back (second) images from Shopify
+  const frontImage = node.images?.edges?.[0]?.node?.url;
+  const backImage = node.images?.edges?.[1]?.node?.url;
+  
   const price = node.priceRange.minVariantPrice;
   const firstVariant = node.variants?.edges?.[0]?.node;
+
+  // Determine which image to show: back on hover/tap, front otherwise
+  const showBackImage = (isHovered || isTapped) && backImage;
+  const currentImage = showBackImage ? backImage : frontImage;
 
   const formatPrice = (amount: string, currency: string) => {
     return new Intl.NumberFormat('es-CO', {
@@ -46,23 +56,47 @@ const ProductCard = ({ product }: ProductCardProps) => {
     });
   };
 
+  // Handle touch for mobile - toggle on first tap
+  const handleTouchStart = () => {
+    if (backImage) {
+      setIsTapped(prev => !prev);
+    }
+  };
+
   return (
     <Link
       to={`/product/${node.handle}`}
       onClick={() => {
-        // Save scroll position so "Volver" can return you to the same spot
         sessionStorage.setItem(SCROLL_Y_KEY, String(window.scrollY));
       }}
       className="product-card group block"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onTouchStart={handleTouchStart}
     >
-      {/* Product Image - 3:4 aspect ratio */}
-      <div className="aspect-[3/4] bg-background overflow-hidden mb-4">
-        {imageUrl ? (
-          <img
-            src={imageUrl}
-            alt={node.title}
-            className="w-full h-full object-contain object-center transition-transform duration-500 group-hover:scale-105"
-          />
+      {/* Product Image - 3:4 aspect ratio with hover transition */}
+      <div className="aspect-[3/4] bg-background overflow-hidden mb-4 relative">
+        {currentImage ? (
+          <>
+            {/* Front Image */}
+            <img
+              src={frontImage}
+              alt={node.title}
+              className={`absolute inset-0 w-full h-full object-contain object-center transition-opacity duration-500 ${
+                showBackImage ? 'opacity-0' : 'opacity-100'
+              }`}
+            />
+            {/* Back Image - only render if exists */}
+            {backImage && (
+              <img
+                src={backImage}
+                alt={`${node.title} - Vista trasera`}
+                className={`absolute inset-0 w-full h-full object-contain object-center transition-opacity duration-500 ${
+                  showBackImage ? 'opacity-100' : 'opacity-0'
+                }`}
+              />
+            )}
+          </>
         ) : (
           <div className="w-full h-full flex items-center justify-center text-muted-foreground">
             Sin imagen
