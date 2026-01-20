@@ -53,17 +53,36 @@ const ContactSection = () => {
     setIsSubmitting(true);
 
     try {
+      const contactData = {
+        first_name: formData.firstName.trim(),
+        last_name: formData.lastName.trim(),
+        email: formData.email.trim().toLowerCase(),
+        phone: formData.phone.trim() || null,
+        message: formData.message.trim()
+      };
+
+      // Save to Supabase contacts table
       const { error } = await supabase
         .from('contacts')
-        .insert({
-          first_name: formData.firstName.trim(),
-          last_name: formData.lastName.trim(),
-          email: formData.email.trim().toLowerCase(),
-          phone: formData.phone.trim() || null,
-          message: formData.message.trim()
-        });
+        .insert(contactData);
 
       if (error) throw error;
+
+      // Send email notification
+      try {
+        await supabase.functions.invoke('send-contact-notification', {
+          body: {
+            firstName: formData.firstName.trim(),
+            lastName: formData.lastName.trim(),
+            email: formData.email.trim().toLowerCase(),
+            phone: formData.phone.trim() || undefined,
+            message: formData.message.trim()
+          }
+        });
+      } catch (emailError) {
+        console.error('Failed to send email notification:', emailError);
+        // Don't fail the submission if email fails
+      }
 
       setIsSuccess(true);
       setFormData({
