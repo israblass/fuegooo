@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import preloaderVideo from '@/assets/fuego-preloader.mp4';
 
 interface PreloaderProps {
@@ -7,12 +7,24 @@ interface PreloaderProps {
 
 const Preloader = ({ onComplete }: PreloaderProps) => {
   const [isExiting, setIsExiting] = useState(false);
+  const [playCount, setPlayCount] = useState(0);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   const handleVideoEnd = () => {
-    setIsExiting(true);
-    setTimeout(() => {
-      onComplete();
-    }, 500);
+    if (playCount < 1) {
+      // Play video again (2 times total)
+      setPlayCount(prev => prev + 1);
+      if (videoRef.current) {
+        videoRef.current.currentTime = 0;
+        videoRef.current.play();
+      }
+    } else {
+      // Done playing twice, fade out
+      setIsExiting(true);
+      setTimeout(() => {
+        onComplete();
+      }, 500);
+    }
   };
 
   return (
@@ -22,6 +34,7 @@ const Preloader = ({ onComplete }: PreloaderProps) => {
       }`}
     >
       <video
+        ref={videoRef}
         src={preloaderVideo}
         autoPlay
         muted
