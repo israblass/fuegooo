@@ -1,6 +1,6 @@
-import { forwardRef, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Menu, ChevronDown } from 'lucide-react';
+import { Menu, ShoppingBag, ChevronDown } from 'lucide-react';
 import fuegoLogoSecondary from '@/assets/fuego-logo-secondary.png';
 import { CartDrawer } from './CartDrawer';
 import {
@@ -19,7 +19,7 @@ interface NavbarProps {
   onGoHome?: () => void;
 }
 
-const Navbar = forwardRef<HTMLElement, NavbarProps>(({ onGoHome }, ref) => {
+const Navbar = ({ onGoHome }: NavbarProps) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
@@ -39,15 +39,12 @@ const Navbar = forwardRef<HTMLElement, NavbarProps>(({ onGoHome }, ref) => {
     setIsOpen(false);
     
     if (isOnHomePage) {
-      // Already on home page, just scroll
       const section = document.getElementById(sectionId);
       if (section) {
         section.scrollIntoView({ behavior: 'smooth' });
       }
     } else {
-      // Navigate to home page with section hash
       navigate(`/#${sectionId}`);
-      // After navigation, scroll to section
       setTimeout(() => {
         const section = document.getElementById(sectionId);
         if (section) {
@@ -71,21 +68,8 @@ const Navbar = forwardRef<HTMLElement, NavbarProps>(({ onGoHome }, ref) => {
     { label: 'HECHO EN CANDELA', id: 'hecho-en-candela' },
   ];
 
-  const rightLinks = [
-    { label: 'About', action: () => navigateToSection('about') },
-    { label: 'Contact', action: () => navigateToSection('contact') },
-  ];
-
-  const allLinks = [
-    { label: 'Home', action: handleHomeClick },
-    { label: 'Shop', action: () => navigateToSection('shop') },
-    { label: 'Collections', action: () => navigateToSection('collections') },
-    ...rightLinks,
-  ];
-
   return (
     <nav
-      ref={ref}
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${
         isScrolled ? 'bg-white/95 backdrop-blur-sm shadow-sm' : 'bg-white'
       }`}
@@ -141,39 +125,63 @@ const Navbar = forwardRef<HTMLElement, NavbarProps>(({ onGoHome }, ref) => {
 
           {/* Right Links + Cart */}
           <div className="flex items-center gap-6 flex-1 justify-end">
-            {rightLinks.map((link) => (
-              <button
-                key={link.label}
-                onClick={link.action}
-                className="text-[11px] tracking-[0.15em] uppercase text-neutral-600 hover:text-neutral-900 transition-colors"
-              >
-                {link.label}
-              </button>
-            ))}
+            <button
+              onClick={() => navigateToSection('about')}
+              className="text-[11px] tracking-[0.15em] uppercase text-neutral-600 hover:text-neutral-900 transition-colors"
+            >
+              About
+            </button>
+            <button
+              onClick={() => navigateToSection('contact')}
+              className="text-[11px] tracking-[0.15em] uppercase text-neutral-600 hover:text-neutral-900 transition-colors"
+            >
+              Contact
+            </button>
             <CartDrawer />
           </div>
         </div>
 
         {/* Mobile Navigation */}
-        <div className="flex md:hidden items-center justify-between">
+        <div className="flex md:hidden items-center justify-between relative">
           {/* Hamburger Menu */}
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
-              <button className="p-1 focus:outline-none">
+              <button className="p-1 focus:outline-none z-10">
                 <Menu size={22} className="text-neutral-800" />
               </button>
             </SheetTrigger>
             <SheetContent side="left" className="w-72 bg-white border-neutral-200">
               <div className="flex flex-col gap-6 mt-8">
-                {allLinks.map((link) => (
-                  <button
-                    key={link.label}
-                    onClick={link.action}
-                    className="text-sm tracking-[0.15em] uppercase text-neutral-700 hover:text-neutral-900 transition-colors text-left"
-                  >
-                    {link.label}
-                  </button>
-                ))}
+                <button
+                  onClick={handleHomeClick}
+                  className="text-sm tracking-[0.15em] uppercase text-neutral-700 hover:text-neutral-900 transition-colors text-left"
+                >
+                  Home
+                </button>
+                <button
+                  onClick={() => navigateToSection('shop')}
+                  className="text-sm tracking-[0.15em] uppercase text-neutral-700 hover:text-neutral-900 transition-colors text-left"
+                >
+                  Shop
+                </button>
+                <button
+                  onClick={() => navigateToSection('collections')}
+                  className="text-sm tracking-[0.15em] uppercase text-neutral-700 hover:text-neutral-900 transition-colors text-left"
+                >
+                  Collections
+                </button>
+                <button
+                  onClick={() => navigateToSection('about')}
+                  className="text-sm tracking-[0.15em] uppercase text-neutral-700 hover:text-neutral-900 transition-colors text-left"
+                >
+                  About
+                </button>
+                <button
+                  onClick={() => navigateToSection('contact')}
+                  className="text-sm tracking-[0.15em] uppercase text-neutral-700 hover:text-neutral-900 transition-colors text-left"
+                >
+                  Contact
+                </button>
               </div>
             </SheetContent>
           </Sheet>
@@ -188,13 +196,13 @@ const Navbar = forwardRef<HTMLElement, NavbarProps>(({ onGoHome }, ref) => {
           </button>
 
           {/* Cart */}
-          <CartDrawer />
+          <div className="z-10">
+            <CartDrawer />
+          </div>
         </div>
       </div>
     </nav>
   );
-});
-
-Navbar.displayName = 'Navbar';
+};
 
 export default Navbar;
