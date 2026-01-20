@@ -10,13 +10,12 @@ import Footer from '@/components/Footer';
 
 const INTRO_DONE_KEY = 'fuego_intro_done';
 const SCROLL_Y_KEY = 'fuego_scroll_y';
-const PRELOADER_DONE_KEY = 'fuego_preloader_done';
 
 const Index = () => {
-  const preloaderAlreadyDone = sessionStorage.getItem(PRELOADER_DONE_KEY) === '1';
   const introAlreadyDone = sessionStorage.getItem(INTRO_DONE_KEY) === '1';
 
-  const [showPreloader, setShowPreloader] = useState(!preloaderAlreadyDone);
+  // Always show preloader on page load
+  const [showPreloader, setShowPreloader] = useState(true);
   const [showIntro, setShowIntro] = useState(!introAlreadyDone);
 
   useEffect(() => {
@@ -34,25 +33,28 @@ const Index = () => {
   }, [showPreloader, showIntro]);
 
   const handlePreloaderComplete = () => {
-    sessionStorage.setItem(PRELOADER_DONE_KEY, '1');
     setShowPreloader(false);
   };
 
   const handleEnter = () => {
+    // Show preloader when transitioning from intro to shop
+    setShowPreloader(true);
     sessionStorage.setItem(INTRO_DONE_KEY, '1');
-    setShowIntro(false);
+    
     setTimeout(() => {
-      const shopSection = document.getElementById('shop');
-      if (shopSection) {
-        shopSection.scrollIntoView({ behavior: 'smooth' });
-      }
+      setShowIntro(false);
     }, 100);
   };
 
   const handleGoHome = () => {
+    // Show preloader when going back to home
+    setShowPreloader(true);
     sessionStorage.removeItem(INTRO_DONE_KEY);
-    setShowIntro(true);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    setTimeout(() => {
+      setShowIntro(true);
+      window.scrollTo({ top: 0, behavior: 'auto' });
+    }, 100);
   };
 
   return (
