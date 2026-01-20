@@ -242,11 +242,16 @@ const ProductDetail = () => {
                 </p>
               </div>
 
-              {product.description && (
-                <p className="text-muted-foreground leading-relaxed">
+              {product.descriptionHtml ? (
+                <div 
+                  className="text-muted-foreground leading-relaxed prose prose-sm max-w-none [&>p]:mb-4 [&>br]:block"
+                  dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}
+                />
+              ) : product.description ? (
+                <p className="text-muted-foreground leading-relaxed whitespace-pre-line">
                   {product.description}
                 </p>
-              )}
+              ) : null}
 
               {/* Variant Options - Color buttons now change image */}
               {product.options && product.options.length > 0 && product.options[0].name !== "Title" && (
