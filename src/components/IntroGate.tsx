@@ -47,11 +47,13 @@ const IntroGate = ({ onEnter, onBeginEnter }: IntroGateProps) => {
     }
 
     setIsSubmitting(true);
+    const normalizedEmail = email.trim().toLowerCase();
 
     try {
+      // Save to Supabase subscribers table
       const { error } = await supabase
         .from('subscribers')
-        .insert({ email: email.trim().toLowerCase() });
+        .insert({ email: normalizedEmail });
 
       if (error) {
         if (error.code === '23505') {
@@ -63,6 +65,16 @@ const IntroGate = ({ onEnter, onBeginEnter }: IntroGateProps) => {
           throw error;
         }
       } else {
+        // Also sync to Shopify Customers
+        try {
+          await supabase.functions.invoke('sync-newsletter-to-shopify', {
+            body: { email: normalizedEmail }
+          });
+        } catch (shopifyError) {
+          console.error('Failed to sync to Shopify:', shopifyError);
+          // Don't fail the subscription if Shopify sync fails
+        }
+
         toast({
           title: "¡Bienvenido a FUEGO!",
           description: "Te mantendremos al tanto de nuevos lanzamientos.",
