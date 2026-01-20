@@ -87,8 +87,8 @@ const Index = () => {
       {/* Preloader Video - highest z-index, covers everything */}
       {showPreloader && <Preloader onComplete={handlePreloaderComplete} />}
 
-      {/* Navbar - only visible after intro */}
-      {!showIntro && <Navbar onGoHome={handleGoHome} />}
+      {/* Navbar - only visible after intro. No longer needs onGoHome since Home should not trigger preloader */}
+      {!showIntro && <Navbar />}
 
       {/* Main Content */}
       <main className="bg-background">
