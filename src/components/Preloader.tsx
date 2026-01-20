@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import preloaderLogo from '@/assets/fuego-preloader-logo.png';
+import { useState, useRef } from 'react';
+import preloaderVideo from '@/assets/fuego-preloader.mp4';
 
 interface PreloaderProps {
   onComplete: () => void;
@@ -7,30 +7,25 @@ interface PreloaderProps {
 
 const Preloader = ({ onComplete }: PreloaderProps) => {
   const [isExiting, setIsExiting] = useState(false);
-  const [logoVisible, setLogoVisible] = useState(false);
+  const [playCount, setPlayCount] = useState(0);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
-  useEffect(() => {
-    // Fade in the logo after a brief delay
-    const fadeInTimeout = setTimeout(() => {
-      setLogoVisible(true);
-    }, 100);
-
-    // Start exit animation after 2.5 seconds total
-    const exitTimeout = setTimeout(() => {
+  const handleVideoEnd = () => {
+    if (playCount < 1) {
+      // Play video again (2 times total)
+      setPlayCount(prev => prev + 1);
+      if (videoRef.current) {
+        videoRef.current.currentTime = 0;
+        videoRef.current.play();
+      }
+    } else {
+      // Done playing twice, fade out
       setIsExiting(true);
-    }, 2500);
-
-    // Complete after fade out animation
-    const completeTimeout = setTimeout(() => {
-      onComplete();
-    }, 3000);
-
-    return () => {
-      clearTimeout(fadeInTimeout);
-      clearTimeout(exitTimeout);
-      clearTimeout(completeTimeout);
-    };
-  }, [onComplete]);
+      setTimeout(() => {
+        onComplete();
+      }, 500);
+    }
+  };
 
   return (
     <div
@@ -38,12 +33,14 @@ const Preloader = ({ onComplete }: PreloaderProps) => {
         isExiting ? 'opacity-0' : 'opacity-100'
       }`}
     >
-      <img
-        src={preloaderLogo}
-        alt="FUEGO"
-        className={`w-[60%] max-w-md h-auto object-contain transition-opacity duration-700 ${
-          logoVisible ? 'opacity-100' : 'opacity-0'
-        }`}
+      <video
+        ref={videoRef}
+        src={preloaderVideo}
+        autoPlay
+        muted
+        playsInline
+        onEnded={handleVideoEnd}
+        className="w-full h-full object-contain"
       />
     </div>
   );
