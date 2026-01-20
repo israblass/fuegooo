@@ -79,7 +79,7 @@ const Index = () => {
       {/* IntroGate - rendered behind preloader so it's ready when preloader fades */}
       {showIntro && (
         <IntroGate
-          onBeginEnter={() => setShowPreloader(true)}
+          onBeginEnter={handleBeginEnterShop}
           onEnter={handleEnter}
         />
       )}
