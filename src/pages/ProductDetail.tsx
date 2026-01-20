@@ -132,8 +132,14 @@ const ProductDetail = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Navbar onGoHome={() => {}} />
-      
+      <Navbar
+        onGoHome={() => {
+          // Force Home to show the pre-entry gate again
+          sessionStorage.removeItem('fuego_intro_done');
+          navigate('/');
+        }}
+      />
+
       <main className="pt-32 md:pt-48 pb-20">
         <div className="container max-w-6xl mx-auto px-6">
           {/* Back Button */}
