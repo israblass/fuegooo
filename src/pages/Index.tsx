@@ -73,8 +73,10 @@ const Index = () => {
   };
 
   const handleGoHome = () => {
-    setPendingAction('goHome');
-    setShowPreloader(true);
+    // Go back to intro WITHOUT preloader (user requested to remove it for this transition)
+    sessionStorage.removeItem(INTRO_DONE_KEY);
+    setShowIntro(true);
+    window.scrollTo({ top: 0, behavior: 'auto' });
   };
 
   return (
