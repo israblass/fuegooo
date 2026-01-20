@@ -198,16 +198,16 @@ const ProductDetail = () => {
       
       <main className="pt-24 pb-20">
         <div className="container max-w-6xl mx-auto px-6">
-          {/* Back Button */}
+          {/* Back Button - More visible */}
           <button 
             onClick={() => {
               if (window.history.length > 1) navigate(-1);
               else navigate('/');
             }}
-            className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-8"
+            className="inline-flex items-center gap-2 text-foreground hover:text-primary transition-colors mb-8 py-2"
           >
-            <ArrowLeft size={16} />
-            <span className="text-sm tracking-wide">Volver</span>
+            <ArrowLeft size={20} />
+            <span className="text-base tracking-wide font-medium">Volver</span>
           </button>
 
           <div className="grid md:grid-cols-2 gap-12 lg:gap-20">

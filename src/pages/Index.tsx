@@ -37,13 +37,10 @@ const Index = () => {
   };
 
   const handleEnter = () => {
-    // Show preloader when transitioning from intro to shop
-    setShowPreloader(true);
+    // First hide intro immediately, then show preloader
+    setShowIntro(false);
     sessionStorage.setItem(INTRO_DONE_KEY, '1');
-    
-    setTimeout(() => {
-      setShowIntro(false);
-    }, 100);
+    setShowPreloader(true);
   };
 
   const handleGoHome = () => {
