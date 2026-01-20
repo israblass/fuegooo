@@ -14,8 +14,11 @@ const SCROLL_Y_KEY = 'fuego_scroll_y';
 const Index = () => {
   const introAlreadyDone = sessionStorage.getItem(INTRO_DONE_KEY) === '1';
 
-  // Always show preloader on page load
-  const [showPreloader, setShowPreloader] = useState(true);
+  // Only show preloader on FIRST page load (not when returning from product pages)
+  const [showPreloader, setShowPreloader] = useState(() => {
+    // If intro already done, we're returning from a product page – no preloader
+    return !introAlreadyDone;
+  });
   const [showIntro, setShowIntro] = useState(!introAlreadyDone);
   const [pendingAction, setPendingAction] = useState<'enterShop' | 'goHome' | null>(null);
 

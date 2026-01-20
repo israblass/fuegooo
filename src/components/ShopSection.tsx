@@ -34,7 +34,16 @@ const ShopSection = () => {
       setIsLoading(true);
       try {
         const data = await fetchProducts(20);
-        setProducts(data);
+        // Sort: Camisetas (tees) first, then Gorras (caps)
+        const sorted = [...data].sort((a, b) => {
+          const typeA = a.node.productType?.toLowerCase() || '';
+          const typeB = b.node.productType?.toLowerCase() || '';
+          // Camiseta comes before Gorra (alphabetically c < g, but we want explicit ordering)
+          if (typeA.includes('camiseta') && !typeB.includes('camiseta')) return -1;
+          if (!typeA.includes('camiseta') && typeB.includes('camiseta')) return 1;
+          return 0;
+        });
+        setProducts(sorted);
       } catch (error) {
         console.error('Error fetching products:', error);
       } finally {
