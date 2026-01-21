@@ -13,6 +13,16 @@
     overscroll-behavior: none;
     overscroll-behavior-y: none;
   }
+
+  /* Hide Lovable badge */
+  #lovable-badge,
+  .lovable-badge,
+  [data-lovable-badge] {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
 }
 
 @layer base {
