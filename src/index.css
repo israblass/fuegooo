@@ -9,7 +9,9 @@
 @layer base {
   html,
   body {
-    background-color: hsl(0 0% 0%) !important;
+    background-color: #000000 !important;
+    overscroll-behavior: none;
+    overscroll-behavior-y: none;
   }
 }
 

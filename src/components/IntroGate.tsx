@@ -94,7 +94,7 @@ const IntroGate = ({ onEnter, onBeginEnter }: IntroGateProps) => {
 
   return (
     <div
-      className={`fixed inset-0 z-50 bg-black flex flex-col items-center justify-center transition-all duration-800 ${
+      className={`fixed inset-0 z-50 w-full h-[100dvh] overflow-hidden overscroll-none touch-none bg-black flex flex-col items-center justify-center transition-all duration-800 ${
         isExiting ? 'animate-slide-up-exit' : ''
       }`}
     >

@@ -36,6 +36,28 @@ const Index = () => {
     });
   }, [showPreloader, showIntro]);
 
+  // Freeze document scroll while intro/preloader overlays are visible (iOS rubber-band mitigation)
+  useEffect(() => {
+    if (showIntro || showPreloader) {
+      const prevOverflow = document.body.style.overflow;
+      const prevPosition = document.body.style.position;
+      const prevWidth = document.body.style.width;
+      const prevHeight = document.body.style.height;
+
+      document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+      document.body.style.height = '100dvh';
+
+      return () => {
+        document.body.style.overflow = prevOverflow;
+        document.body.style.position = prevPosition;
+        document.body.style.width = prevWidth;
+        document.body.style.height = prevHeight;
+      };
+    }
+  }, [showIntro, showPreloader]);
+
   const handlePreloaderComplete = () => {
     // Resolve any pending transition only AFTER the preloader has finished.
     if (pendingAction === 'enterShop') {
