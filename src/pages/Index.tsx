@@ -80,7 +80,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-[100dvh] bg-black">
       {/* IntroGate - rendered behind preloader so it's ready when preloader fades */}
       {showIntro && (
         <IntroGate
