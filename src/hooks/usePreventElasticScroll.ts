@@ -4,8 +4,8 @@ const isIOS = () => {
   if (typeof navigator === "undefined") return false;
   const ua = navigator.userAgent || "";
   const iOSDevice = /iPad|iPhone|iPod/.test(ua);
-  // iPadOS reports as Mac, but has touch points
-  const iPadOS = navigator.platform === "MacIntel" && (navigator as any).maxTouchPoints > 1;
+  // iPadOS reports as Mac in UA; detect via touch points
+  const iPadOS = /Macintosh/.test(ua) && (navigator as any).maxTouchPoints > 1;
   return iOSDevice || iPadOS;
 };
 
