@@ -94,14 +94,14 @@ const Index = () => {
         {/* 2. Editorial banner - Desert */}
         <EditorialBanner />
 
-        {/* 3. Product grid - New Collection */}
-        <ProductGrid id="new-collection" title="Nueva Colección" maxProducts={10} />
+        {/* 3. Product grid - Hecho en Candela collection */}
+        <ProductGrid id="new-collection" title="Hecho en Candela" vendorFilter="hecho en candela" />
 
         {/* 4. Split banner 50/50 */}
         <SplitBanner />
 
-        {/* 5. Product grid - Bestsellers */}
-        <ProductGrid id="bestsellers" title="Bestsellers" maxProducts={10} />
+        {/* 5. Product grid - Basics (Gorras + Camisetas) */}
+        <ProductGrid id="bestsellers" title="Basics" vendorFilter="fuego" />
 
         {/* About */}
         <AboutSection />
