@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ShopifyProduct } from '@/lib/shopify';
-import { useCartStore } from '@/stores/cartStore';
-import { toast } from 'sonner';
 
 const SCROLL_Y_KEY = 'fuego_scroll_y';
 
@@ -11,14 +9,12 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ product }: ProductCardProps) => {
-  const addItem = useCartStore(state => state.addItem);
   const { node } = product;
   const [isHovered, setIsHovered] = useState(false);
 
   const frontImage = node.images?.edges?.[0]?.node?.url;
   const backImage = node.images?.edges?.[1]?.node?.url;
   const price = node.priceRange.minVariantPrice;
-  const firstVariant = node.variants?.edges?.[0]?.node;
 
   const showBack = isHovered && backImage;
 
@@ -26,17 +22,6 @@ const ProductCard = ({ product }: ProductCardProps) => {
     return new Intl.NumberFormat('es-CO', {
       style: 'currency', currency, minimumFractionDigits: 0,
     }).format(parseFloat(amount));
-  };
-
-  const handleAddToCart = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (!firstVariant) return;
-    addItem({
-      product, variantId: firstVariant.id, variantTitle: firstVariant.title,
-      price: firstVariant.price, quantity: 1, selectedOptions: firstVariant.selectedOptions || [],
-    });
-    toast.success('Agregado al carrito', { description: node.title, position: 'top-center' });
   };
 
   return (
@@ -61,13 +46,10 @@ const ProductCard = ({ product }: ProductCardProps) => {
         ) : (
           <div className="w-full h-full flex items-center justify-center text-neutral-400 text-xs uppercase tracking-wider">Sin imagen</div>
         )}
-        {/* Quick add overlay */}
-        <button
-          onClick={handleAddToCart}
-          className="absolute bottom-0 left-0 right-0 py-2.5 bg-black text-white text-[10px] tracking-[0.2em] uppercase text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-        >
-          Agregar al carrito
-        </button>
+        {/* View product overlay */}
+        <div className="absolute bottom-0 left-0 right-0 py-2.5 bg-black text-white text-[10px] tracking-[0.2em] uppercase text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          Ver producto
+        </div>
       </div>
 
       {/* Info */}
