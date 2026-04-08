@@ -71,10 +71,10 @@ const ProductCard = ({ product }: ProductCardProps) => {
       </div>
 
       {/* Info */}
-      <h3 className="text-[11px] md:text-xs tracking-[0.1em] uppercase text-neutral-900 font-medium mb-1 truncate">
+      <h3 className="text-[11px] md:text-xs tracking-[0.1em] uppercase text-neutral-900 font-medium mb-1">
         {node.title}
       </h3>
-      <span className="text-[11px] md:text-xs tracking-wider text-neutral-500">
+      <span className="text-[11px] md:text-xs tracking-wider" style={{ color: '#666666' }}>
         {formatPrice(price.amount, price.currencyCode)}
       </span>
     </Link>
