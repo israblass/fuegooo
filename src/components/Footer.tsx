@@ -27,7 +27,7 @@ const Footer = forwardRef<HTMLElement>((_props, ref) => {
               <li><a href="#new-collection" className="text-[11px] tracking-[0.15em] uppercase text-white/50 hover:text-white transition-colors">Nueva Colección</a></li>
               <li><a href="#bestsellers" className="text-[11px] tracking-[0.15em] uppercase text-white/50 hover:text-white transition-colors">Bestsellers</a></li>
               <li><a href="#new-collection" className="text-[11px] tracking-[0.15em] uppercase text-white/50 hover:text-white transition-colors">Camisetas</a></li>
-              <li><a href="#new-collection" className="text-[11px] tracking-[0.15em] uppercase text-white/50 hover:text-white transition-colors">Gorras</a></li>
+              <li><a href="#new-collection" className="text-[11px] tracking-[0.15em] uppercase text-white/50 hover:text-white transition-colors">​</a></li>
             </ul>
           </div>
 
