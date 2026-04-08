@@ -44,8 +44,8 @@ const Index = () => {
         {/* 3. Grid — 2 hoodies */}
         <ProductGrid id="new-collection" titleFilter="hoodie" vendorFilter="hecho en candela" displayLimit={2} />
 
-        {/* 4. Grid — 2 sets/monos */}
-        <ProductGrid id="sets" titleFilter="oversized set" vendorFilter="hecho en candela" displayLimit={2} />
+        {/* 4. Grid — 2 sweatpants */}
+        <ProductGrid id="sweatpants" titleFilter="sweatpants" vendorFilter="hecho en candela" displayLimit={2} />
 
         {/* 5. Banner — modelo femenina */}
         <ModelBanner src={bannerFemale} alt="FUEGO - Collection" />
