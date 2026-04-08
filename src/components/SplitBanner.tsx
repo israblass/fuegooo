@@ -39,7 +39,7 @@ const SplitBanner = () => {
         <div className="absolute inset-0 bg-black/20" />
         <div className="absolute bottom-10 md:bottom-16 left-0 right-0 flex flex-col items-center gap-3 z-10">
           <h3 className="text-xl md:text-2xl font-bold tracking-[0.1em] uppercase text-white">
-            MUJER
+            ​
           </h3>
           <button
             onClick={scrollToShop}
