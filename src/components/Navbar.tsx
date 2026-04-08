@@ -81,10 +81,10 @@ const Navbar = ({ onGoHome }: NavbarProps) => {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="md:hidden bg-black/95 backdrop-blur-sm px-6 pb-8 pt-2 flex flex-col gap-5">
-          <button onClick={() => navigateToSection('new-collection')} className="text-sm tracking-[0.2em] uppercase text-white/80 hover:text-white text-left">Shop</button>
-          <button onClick={() => navigateToSection('about')} className="text-sm tracking-[0.2em] uppercase text-white/80 hover:text-white text-left">About</button>
-          <button onClick={() => navigateToSection('contact')} className="text-sm tracking-[0.2em] uppercase text-white/80 hover:text-white text-left">Contact</button>
+        <div className="md:hidden fixed inset-0 top-0 bg-black z-40 flex flex-col justify-center px-10 gap-10">
+          <button onClick={() => navigateToSection('new-collection')} className="text-2xl tracking-[0.3em] uppercase text-white/80 hover:text-white text-left font-light">Shop</button>
+          <button onClick={() => navigateToSection('about')} className="text-2xl tracking-[0.3em] uppercase text-white/80 hover:text-white text-left font-light">About</button>
+          <button onClick={() => navigateToSection('contact')} className="text-2xl tracking-[0.3em] uppercase text-white/80 hover:text-white text-left font-light">Contact</button>
         </div>
       )}
     </nav>
