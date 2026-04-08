@@ -1,5 +1,6 @@
 import { forwardRef } from 'react';
 import { Instagram } from 'lucide-react';
+import fuegoLogoImage from '@/assets/fuego-logo.png';
 
 const WhatsAppIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
@@ -72,7 +73,7 @@ const Footer = forwardRef<HTMLElement>((_props, ref) => {
 
         {/* Bottom bar */}
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <span className="text-lg font-bold tracking-[0.25em] uppercase">FUEGO</span>
+          <img src={fuegoLogoImage} alt="FUEGO" className="h-10 md:h-12 w-auto object-contain" />
           <p className="text-[10px] tracking-[0.15em] uppercase text-white/30">
             © 2026 FUEGO® — Candela Worldwide Clothing Dept.
           </p>

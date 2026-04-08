@@ -69,7 +69,7 @@ const Navbar = ({ onGoHome }: NavbarProps) => {
           <img
             src={fuegoLogoImage}
             alt="FUEGO"
-            className="h-7 md:h-8 w-auto object-contain"
+            className="h-16 md:h-24 w-auto object-contain"
           />
         </button>
 
