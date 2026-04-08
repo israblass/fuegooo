@@ -107,7 +107,7 @@ const IntroGate = ({ onEnter, onBeginEnter }: IntroGateProps) => {
         <img
           src={fuegoLogoImage}
           alt="FUEGO"
-          className="w-72 md:w-96 lg:w-[28rem] h-auto object-contain"
+          className="w-80 md:w-[32rem] lg:w-[40rem] h-auto object-contain"
         />
       </div>
 
