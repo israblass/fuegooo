@@ -18,13 +18,13 @@ const SplitBanner = () => {
         <div className="absolute inset-0 bg-black/20" />
         <div className="absolute bottom-10 md:bottom-16 left-0 right-0 flex flex-col items-center gap-3 z-10">
           <h3 className="text-xl md:text-2xl font-bold tracking-[0.1em] uppercase text-white">
-            HOMBRE
+            ​
           </h3>
           <button
             onClick={scrollToShop}
             className="px-8 py-2.5 border border-white/40 text-white text-[10px] tracking-[0.3em] uppercase hover:bg-white hover:text-black transition-all duration-300"
           >
-            Shop
+            ​
           </button>
         </div>
       </div>
