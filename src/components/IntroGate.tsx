@@ -144,6 +144,15 @@ const IntroGate = ({ onEnter, onBeginEnter }: IntroGateProps) => {
         </button>
       </form>
 
+      {/* Shop button */}
+      <button
+        onClick={handleEnter}
+        className="mb-10 px-12 py-3 border border-white/30 text-white text-[10px] tracking-[0.3em] uppercase hover:bg-white hover:text-black transition-all duration-300 animate-fade-in"
+        style={{ animationDelay: '0.6s', opacity: 0 }}
+      >
+        Shop
+      </button>
+
 
       {/* Decorative bottom corners */}
       <div className="absolute bottom-0 left-8 w-px h-16 bg-gradient-to-t from-white/10 to-transparent" />
