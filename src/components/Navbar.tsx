@@ -37,7 +37,7 @@ const Navbar = ({ onGoHome }: NavbarProps) => {
       <div className="max-w-[1400px] mx-auto px-4 md:px-8 py-4 md:py-5 flex items-center justify-between">
         {/* Left nav links (desktop) */}
         <div className="hidden md:flex items-center gap-8 flex-1">
-          <button onClick={() => navigateToSection('new-collection')} className="text-[11px] tracking-[0.2em] uppercase text-white/80 hover:text-white transition-colors">
+          <button onClick={() => navigate('/shop')} className="text-[11px] tracking-[0.2em] uppercase text-white/80 hover:text-white transition-colors">
             Shop
           </button>
           <button onClick={() => navigateToSection('about')} className="text-[11px] tracking-[0.2em] uppercase text-white/80 hover:text-white transition-colors">
@@ -71,7 +71,7 @@ const Navbar = ({ onGoHome }: NavbarProps) => {
       {/* Mobile menu */}
       {mobileOpen && (
         <div className="md:hidden fixed inset-0 top-0 bg-black/80 backdrop-blur-md z-40 flex flex-col justify-center px-10 gap-10">
-          <button onClick={() => navigateToSection('new-collection')} className="text-2xl tracking-[0.3em] uppercase text-white/80 hover:text-white text-left font-light">Shop</button>
+          <button onClick={() => { setMobileOpen(false); navigate('/shop'); }} className="text-2xl tracking-[0.3em] uppercase text-white/80 hover:text-white text-left font-light">Shop</button>
           <button onClick={() => navigateToSection('about')} className="text-2xl tracking-[0.3em] uppercase text-white/80 hover:text-white text-left font-light">About</button>
           <button onClick={() => navigateToSection('contact')} className="text-2xl tracking-[0.3em] uppercase text-white/80 hover:text-white text-left font-light">Contact</button>
         </div>
