@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { CartDrawer } from './CartDrawer';
@@ -9,17 +9,10 @@ interface NavbarProps {
 }
 
 const Navbar = ({ onGoHome }: NavbarProps) => {
-  const [isScrolled, setIsScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const isOnHomePage = location.pathname === '/';
-
-  useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 50);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   const navigateToSection = (sectionId: string) => {
     setMobileOpen(false);
@@ -40,9 +33,7 @@ const Navbar = ({ onGoHome }: NavbarProps) => {
   };
 
   return (
-    <nav
-      className="fixed top-0 left-0 right-0 z-40 bg-transparent"
-    >
+    <nav className="fixed top-0 left-0 right-0 z-40 bg-black">
       <div className="max-w-[1400px] mx-auto px-4 md:px-8 py-4 md:py-5 flex items-center justify-between">
         {/* Left nav links (desktop) */}
         <div className="hidden md:flex items-center gap-8 flex-1">
@@ -79,7 +70,7 @@ const Navbar = ({ onGoHome }: NavbarProps) => {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="md:hidden fixed inset-0 top-0 bg-black/60 backdrop-blur-md z-40 flex flex-col justify-center px-10 gap-10">
+        <div className="md:hidden fixed inset-0 top-0 bg-black/80 backdrop-blur-md z-40 flex flex-col justify-center px-10 gap-10">
           <button onClick={() => navigateToSection('new-collection')} className="text-2xl tracking-[0.3em] uppercase text-white/80 hover:text-white text-left font-light">Shop</button>
           <button onClick={() => navigateToSection('about')} className="text-2xl tracking-[0.3em] uppercase text-white/80 hover:text-white text-left font-light">About</button>
           <button onClick={() => navigateToSection('contact')} className="text-2xl tracking-[0.3em] uppercase text-white/80 hover:text-white text-left font-light">Contact</button>

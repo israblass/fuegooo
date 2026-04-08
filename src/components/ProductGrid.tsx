@@ -5,16 +5,17 @@ import { Loader2 } from 'lucide-react';
 
 interface ProductGridProps {
   id: string;
-  title: string;
+  title?: string;
   query?: string;
   maxProducts?: number;
-  /** If provided, only show products whose vendor matches (case-insensitive) */
   vendorFilter?: string;
-  /** If provided, only show products whose productType matches */
   typeFilter?: string;
+  /** Filter by keyword in title (case-insensitive) */
+  titleFilter?: string;
+  /** Max items to display after filtering */
+  displayLimit?: number;
 }
 
-// Sort priority: Oversized Sets first, then Hoodies, Sweatpants, Tees, then Gorras last
 const sortPriority = (product: ShopifyProduct): number => {
   const title = product.node.title.toLowerCase();
   const type = (product.node.productType || '').toLowerCase();
@@ -26,7 +27,7 @@ const sortPriority = (product: ShopifyProduct): number => {
   return 3;
 };
 
-const ProductGrid = ({ id, title, query, maxProducts = 50, vendorFilter, typeFilter }: ProductGridProps) => {
+const ProductGrid = ({ id, title, query, maxProducts = 50, vendorFilter, typeFilter, titleFilter, displayLimit }: ProductGridProps) => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [products, setProducts] = useState<ShopifyProduct[]>([]);
@@ -51,38 +52,39 @@ const ProductGrid = ({ id, title, query, maxProducts = 50, vendorFilter, typeFil
       setIsLoading(true);
       try {
         const data = await fetchProducts(maxProducts, query);
-        
-        // Filter out products without images
         let filtered = data.filter(p => p.node.images?.edges?.length > 0);
-        
-        // Apply vendor filter if provided
+
         if (vendorFilter) {
           filtered = filtered.filter(p => {
-            const variants = p.node.variants?.edges || [];
-            const vendor = (p.node as any).vendor?.toLowerCase() || '';
-            // Check title pattern for vendor identification
-            const title = p.node.title.toLowerCase();
+            const t = p.node.title.toLowerCase();
             if (vendorFilter.toLowerCase() === 'hecho en candela') {
-              return title.startsWith('fuego®') && !title.includes('dad cap') && !title.includes('trucker cap') && !title.includes('hecho en candela tee');
+              return t.startsWith('fuego®') && !t.includes('dad cap') && !t.includes('trucker cap') && !t.includes('hecho en candela tee');
             }
             if (vendorFilter.toLowerCase() === 'fuego') {
-              return title.includes('dad cap') || title.includes('trucker cap') || title.includes('hecho en candela tee');
+              return t.includes('dad cap') || t.includes('trucker cap') || t.includes('hecho en candela tee');
             }
             return true;
           });
         }
 
-        // Apply type filter
         if (typeFilter) {
           filtered = filtered.filter(p => {
             const type = (p.node.productType || '').toLowerCase();
             return type.includes(typeFilter.toLowerCase());
           });
         }
-        
-        // Sort by category priority
+
+        if (titleFilter) {
+          const kw = titleFilter.toLowerCase();
+          filtered = filtered.filter(p => p.node.title.toLowerCase().includes(kw));
+        }
+
         filtered.sort((a, b) => sortPriority(a) - sortPriority(b));
-        
+
+        if (displayLimit) {
+          filtered = filtered.slice(0, displayLimit);
+        }
+
         setProducts(filtered);
       } catch (error) {
         console.error('Error fetching products:', error);
@@ -91,17 +93,19 @@ const ProductGrid = ({ id, title, query, maxProducts = 50, vendorFilter, typeFil
       }
     };
     load();
-  }, [maxProducts, query, vendorFilter, typeFilter]);
+  }, [maxProducts, query, vendorFilter, typeFilter, titleFilter, displayLimit]);
 
   return (
-    <section id={id} className="bg-[#f5f5f5] py-12 md:py-20">
+    <section id={id} className="bg-[#f5f5f5]" style={{ padding: '80px 0' }}>
       <div
         ref={sectionRef}
         className={`max-w-[1400px] mx-auto px-4 md:px-8 transition-all duration-1000 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
       >
-        <h2 className="text-center text-xs md:text-sm tracking-[0.35em] uppercase text-neutral-900 font-semibold mb-10 md:mb-14">
-          {title}
-        </h2>
+        {title && (
+          <h2 className="text-center text-[12px] tracking-[0.2em] uppercase text-neutral-900 font-semibold mb-10 md:mb-14">
+            {title}
+          </h2>
+        )}
 
         {isLoading ? (
           <div className="flex items-center justify-center py-20">
@@ -112,7 +116,7 @@ const ProductGrid = ({ id, title, query, maxProducts = 50, vendorFilter, typeFil
             <p className="text-neutral-500 text-sm uppercase tracking-wider">No hay productos disponibles</p>
           </div>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4" style={{ gap: '2px' }}>
             {products.map((product, index) => (
               <div
                 key={product.node.id}
