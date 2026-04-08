@@ -33,7 +33,7 @@ const Navbar = ({ onGoHome }: NavbarProps) => {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-40 bg-black">
+    <nav className="fixed top-0 left-0 right-0 z-40 bg-transparent">
       <div className="max-w-[1400px] mx-auto px-4 md:px-8 py-4 md:py-5 flex items-center justify-between">
         {/* Left nav links (desktop) */}
         <div className="hidden md:flex items-center gap-8 flex-1">
