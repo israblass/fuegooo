@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { CartDrawer } from './CartDrawer';
+import fuegoLogoImage from '@/assets/fuego-logo.png';
 
 interface NavbarProps {
   onGoHome?: () => void;
@@ -63,11 +64,13 @@ const Navbar = ({ onGoHome }: NavbarProps) => {
           {mobileOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
 
-        {/* Center logo text */}
+        {/* Center logo image */}
         <button onClick={handleHomeClick} className="absolute left-1/2 -translate-x-1/2 focus:outline-none">
-          <span className="text-lg md:text-xl font-bold tracking-[0.25em] uppercase text-white">
-            FUEGO
-          </span>
+          <img
+            src={fuegoLogoImage}
+            alt="FUEGO"
+            className="h-7 md:h-8 w-auto object-contain"
+          />
         </button>
 
         {/* Right - cart */}
