@@ -25,7 +25,7 @@ const Footer = forwardRef<HTMLElement>((_props, ref) => {
             <h4 className="text-[11px] tracking-[0.25em] uppercase font-semibold mb-5">Shop</h4>
             <ul className="space-y-3">
               <li><a href="#new-collection" className="text-[11px] tracking-[0.15em] uppercase text-white/50 hover:text-white transition-colors">Nueva Colección</a></li>
-              <li><a href="#bestsellers" className="text-[11px] tracking-[0.15em] uppercase text-white/50 hover:text-white transition-colors">Bestsellers</a></li>
+              <li><a href="#bestsellers" className="text-[11px] tracking-[0.15em] uppercase text-white/50 hover:text-white transition-colors">​</a></li>
               <li><a href="#new-collection" className="text-[11px] tracking-[0.15em] uppercase text-white/50 hover:text-white transition-colors">Camisetas</a></li>
               <li><a href="#new-collection" className="text-[11px] tracking-[0.15em] uppercase text-white/50 hover:text-white transition-colors">​</a></li>
             </ul>
