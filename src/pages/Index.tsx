@@ -95,13 +95,13 @@ const Index = () => {
         <EditorialBanner />
 
         {/* 3. Product grid - Hecho en Candela collection */}
-        <ProductGrid id="new-collection" title="Hecho en Candela" vendorFilter="hecho en candela" />
+        <ProductGrid id="new-collection" title="BASICS" vendorFilter="hecho en candela" />
 
         {/* 4. Split banner 50/50 */}
         <SplitBanner />
 
         {/* 5. Product grid - Basics (Gorras + Camisetas) */}
-        <ProductGrid id="bestsellers" title="Basics" vendorFilter="fuego" />
+        <ProductGrid id="bestsellers" title="" vendorFilter="fuego" />
 
         {/* About */}
         <AboutSection />
