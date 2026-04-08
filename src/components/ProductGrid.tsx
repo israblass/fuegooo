@@ -8,9 +8,25 @@ interface ProductGridProps {
   title: string;
   query?: string;
   maxProducts?: number;
+  /** If provided, only show products whose vendor matches (case-insensitive) */
+  vendorFilter?: string;
+  /** If provided, only show products whose productType matches */
+  typeFilter?: string;
 }
 
-const ProductGrid = ({ id, title, query, maxProducts = 10 }: ProductGridProps) => {
+// Sort priority: Oversized Sets first, then Hoodies, Sweatpants, Tees, then Gorras last
+const sortPriority = (product: ShopifyProduct): number => {
+  const title = product.node.title.toLowerCase();
+  const type = (product.node.productType || '').toLowerCase();
+  if (title.includes('oversized set')) return 0;
+  if (title.includes('hoodie')) return 1;
+  if (title.includes('sweatpants')) return 2;
+  if (title.includes('tee') || type.includes('camiseta')) return 3;
+  if (type.includes('gorra') || title.includes('cap')) return 4;
+  return 3;
+};
+
+const ProductGrid = ({ id, title, query, maxProducts = 50, vendorFilter, typeFilter }: ProductGridProps) => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [products, setProducts] = useState<ShopifyProduct[]>([]);
@@ -35,7 +51,39 @@ const ProductGrid = ({ id, title, query, maxProducts = 10 }: ProductGridProps) =
       setIsLoading(true);
       try {
         const data = await fetchProducts(maxProducts, query);
-        setProducts(data);
+        
+        // Filter out products without images
+        let filtered = data.filter(p => p.node.images?.edges?.length > 0);
+        
+        // Apply vendor filter if provided
+        if (vendorFilter) {
+          filtered = filtered.filter(p => {
+            const variants = p.node.variants?.edges || [];
+            const vendor = (p.node as any).vendor?.toLowerCase() || '';
+            // Check title pattern for vendor identification
+            const title = p.node.title.toLowerCase();
+            if (vendorFilter.toLowerCase() === 'hecho en candela') {
+              return title.startsWith('fuego®') && !title.includes('dad cap') && !title.includes('trucker cap') && !title.includes('hecho en candela tee');
+            }
+            if (vendorFilter.toLowerCase() === 'fuego') {
+              return title.includes('dad cap') || title.includes('trucker cap') || title.includes('hecho en candela tee');
+            }
+            return true;
+          });
+        }
+
+        // Apply type filter
+        if (typeFilter) {
+          filtered = filtered.filter(p => {
+            const type = (p.node.productType || '').toLowerCase();
+            return type.includes(typeFilter.toLowerCase());
+          });
+        }
+        
+        // Sort by category priority
+        filtered.sort((a, b) => sortPriority(a) - sortPriority(b));
+        
+        setProducts(filtered);
       } catch (error) {
         console.error('Error fetching products:', error);
       } finally {
@@ -43,7 +91,7 @@ const ProductGrid = ({ id, title, query, maxProducts = 10 }: ProductGridProps) =
       }
     };
     load();
-  }, [maxProducts, query]);
+  }, [maxProducts, query, vendorFilter, typeFilter]);
 
   return (
     <section id={id} className="bg-[#f5f5f5] py-12 md:py-20">
@@ -51,7 +99,6 @@ const ProductGrid = ({ id, title, query, maxProducts = 10 }: ProductGridProps) =
         ref={sectionRef}
         className={`max-w-[1400px] mx-auto px-4 md:px-8 transition-all duration-1000 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
       >
-        {/* Section Title */}
         <h2 className="text-center text-xs md:text-sm tracking-[0.35em] uppercase text-neutral-900 font-semibold mb-10 md:mb-14">
           {title}
         </h2>
@@ -70,7 +117,7 @@ const ProductGrid = ({ id, title, query, maxProducts = 10 }: ProductGridProps) =
               <div
                 key={product.node.id}
                 className="animate-fade-up"
-                style={{ animationDelay: `${index * 0.06}s`, opacity: 0 }}
+                style={{ animationDelay: `${index * 0.05}s`, opacity: 0 }}
               >
                 <ProductCard product={product} />
               </div>
