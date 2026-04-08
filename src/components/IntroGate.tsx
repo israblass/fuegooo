@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
-import fuegoLogoImage from '@/assets/fuego-logo-tornasol.png';
+import fuegoLogoImage from '@/assets/fuego-logo.png';
 
 interface IntroGateProps {
   onEnter: () => void;
