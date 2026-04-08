@@ -56,6 +56,19 @@ const Index = () => {
         {/* 7. Banner — modelo masculino */}
         <ModelBanner src={bannerMale} alt="FUEGO - Collection" />
 
+        {/* Shop All CTA */}
+        <section className="bg-white flex items-center justify-center" style={{ padding: '60px 0' }}>
+          <a
+            href="https://fueegooooo.com/collections/all"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="uppercase tracking-[0.15em] text-[11px] border border-black bg-transparent text-black hover:bg-black hover:text-white transition-all duration-300 rounded-none"
+            style={{ padding: '14px 48px' }}
+          >
+            SHOP ALL
+          </a>
+        </section>
+
         {/* 8. About Us */}
         <AboutSection />
       </main>
