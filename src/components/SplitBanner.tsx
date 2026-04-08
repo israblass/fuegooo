@@ -20,12 +20,6 @@ const SplitBanner = () => {
           <h3 className="text-xl md:text-2xl font-bold tracking-[0.1em] uppercase text-white">
             ​
           </h3>
-          <button
-            onClick={scrollToShop}
-            className="px-8 py-2.5 border border-white/40 text-white text-[10px] tracking-[0.3em] uppercase hover:bg-white hover:text-black transition-all duration-300"
-          >
-            ​
-          </button>
         </div>
       </div>
 
