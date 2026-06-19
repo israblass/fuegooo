@@ -33,6 +33,7 @@ const Navbar = ({ onGoHome }: NavbarProps) => {
   };
 
   return (
+    <>
     <nav className={`fixed top-0 left-0 right-0 z-40 transition-colors duration-300 ${isOnHomePage ? 'bg-transparent' : 'bg-white/90 backdrop-blur-sm shadow-sm'}`}>
       <div className="max-w-[1400px] mx-auto px-4 md:px-8 py-4 md:py-5 flex items-center justify-between">
         {/* Left nav links (desktop) */}
@@ -68,15 +69,17 @@ const Navbar = ({ onGoHome }: NavbarProps) => {
         </div>
       </div>
 
-      {/* Mobile menu */}
-      {mobileOpen && (
-        <div className="md:hidden fixed inset-0 top-0 bg-black z-40 flex flex-col justify-center px-10 gap-10">
-          <button onClick={() => { setMobileOpen(false); navigate('/shop'); }} className="text-2xl tracking-[0.3em] uppercase text-white/80 hover:text-white text-left font-light">Shop</button>
-          <button onClick={() => navigateToSection('about')} className="text-2xl tracking-[0.3em] uppercase text-white/80 hover:text-white text-left font-light">About</button>
-          <button onClick={() => navigateToSection('contact')} className="text-2xl tracking-[0.3em] uppercase text-white/80 hover:text-white text-left font-light">Contact</button>
-        </div>
-      )}
     </nav>
+
+    {/* Mobile menu - rendered outside <nav> to escape backdrop-filter containing block */}
+    {mobileOpen && (
+      <div className="md:hidden fixed inset-0 bg-black z-[45] flex flex-col justify-center px-10 gap-10">
+        <button onClick={() => { setMobileOpen(false); navigate('/shop'); }} className="text-2xl tracking-[0.3em] uppercase text-white/80 hover:text-white text-left font-light">Shop</button>
+        <button onClick={() => navigateToSection('about')} className="text-2xl tracking-[0.3em] uppercase text-white/80 hover:text-white text-left font-light">About</button>
+        <button onClick={() => navigateToSection('contact')} className="text-2xl tracking-[0.3em] uppercase text-white/80 hover:text-white text-left font-light">Contact</button>
+      </div>
+    )}
+    </>
   );
 };
 
