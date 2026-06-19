@@ -12,7 +12,7 @@ import {
 import { ShoppingCart, Minus, Plus, Trash2, ExternalLink, Loader2 } from "lucide-react";
 import { useCartStore } from "@/stores/cartStore";
 
-export const CartDrawer = () => {
+export const CartDrawer = ({ dark = true }: { dark?: boolean }) => {
   const [isOpen, setIsOpen] = useState(false);
   const { 
     items, 
@@ -49,7 +49,7 @@ export const CartDrawer = () => {
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
-        <Button variant="ghost" size="icon" className="relative text-white hover:bg-white/10">
+        <Button variant="ghost" size="icon" className={`relative ${dark ? 'text-white hover:bg-white/10' : 'text-black hover:bg-black/10'}`}>
           <ShoppingCart className="h-5 w-5" strokeWidth={1.5} />
           {totalItems > 0 && (
             <Badge className="absolute -top-1 -right-1 h-4 w-4 rounded-full p-0 flex items-center justify-center text-[10px] bg-primary text-primary-foreground">

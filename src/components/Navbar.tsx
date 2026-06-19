@@ -33,23 +33,23 @@ const Navbar = ({ onGoHome }: NavbarProps) => {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-40 bg-transparent">
+    <nav className={`fixed top-0 left-0 right-0 z-40 transition-colors duration-300 ${isOnHomePage ? 'bg-transparent' : 'bg-white/90 backdrop-blur-sm shadow-sm'}`}>
       <div className="max-w-[1400px] mx-auto px-4 md:px-8 py-4 md:py-5 flex items-center justify-between">
         {/* Left nav links (desktop) */}
         <div className="hidden md:flex items-center gap-8 flex-1">
-          <button onClick={() => navigate('/shop')} className="text-[11px] tracking-[0.2em] uppercase text-white/80 hover:text-white transition-colors">
+          <button onClick={() => navigate('/shop')} className={`text-[11px] tracking-[0.2em] uppercase transition-colors ${isOnHomePage ? 'text-white/80 hover:text-white' : 'text-black/80 hover:text-black'}`}>
             Shop
           </button>
-          <button onClick={() => navigateToSection('about')} className="text-[11px] tracking-[0.2em] uppercase text-white/80 hover:text-white transition-colors">
+          <button onClick={() => navigateToSection('about')} className={`text-[11px] tracking-[0.2em] uppercase transition-colors ${isOnHomePage ? 'text-white/80 hover:text-white' : 'text-black/80 hover:text-black'}`}>
             About
           </button>
-          <button onClick={() => navigateToSection('contact')} className="text-[11px] tracking-[0.2em] uppercase text-white/80 hover:text-white transition-colors">
+          <button onClick={() => navigateToSection('contact')} className={`text-[11px] tracking-[0.2em] uppercase transition-colors ${isOnHomePage ? 'text-white/80 hover:text-white' : 'text-black/80 hover:text-black'}`}>
             Contact
           </button>
         </div>
 
         {/* Mobile hamburger */}
-        <button onClick={() => setMobileOpen(!mobileOpen)} className="md:hidden text-white z-50">
+        <button onClick={() => setMobileOpen(!mobileOpen)} className={`md:hidden z-50 ${isOnHomePage ? 'text-white' : 'text-black'}`}>
           {mobileOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
 
@@ -58,13 +58,13 @@ const Navbar = ({ onGoHome }: NavbarProps) => {
           <img
             src={fuegoLogoImage}
             alt="FUEGO"
-            className="h-16 md:h-24 w-auto object-contain"
+            className={`h-16 md:h-24 w-auto object-contain transition-all duration-300 ${isOnHomePage ? '' : 'brightness-0'}`}
           />
         </button>
 
         {/* Right - cart */}
         <div className="flex items-center gap-4 flex-1 justify-end">
-          <CartDrawer />
+          <CartDrawer dark={isOnHomePage} />
         </div>
       </div>
 
