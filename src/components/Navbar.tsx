@@ -50,7 +50,11 @@ const Navbar = ({ onGoHome }: NavbarProps) => {
         </div>
 
         {/* Mobile hamburger */}
-        <button onClick={() => setMobileOpen(!mobileOpen)} className={`md:hidden z-50 ${isOnHomePage ? 'text-white' : 'text-black'}`}>
+        <button
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label={mobileOpen ? 'Cerrar menú' : 'Abrir menú'}
+          className={`md:hidden z-50 ${mobileOpen || isOnHomePage ? 'text-white' : 'text-black'}`}
+        >
           {mobileOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
 
@@ -74,6 +78,7 @@ const Navbar = ({ onGoHome }: NavbarProps) => {
     {/* Mobile menu - rendered outside <nav> to escape backdrop-filter containing block */}
     {mobileOpen && (
       <div className="md:hidden fixed inset-0 bg-black z-[45] flex flex-col justify-center px-10 gap-10">
+        <button onClick={handleHomeClick} className="text-2xl tracking-[0.3em] uppercase text-white/80 hover:text-white text-left font-light">Home</button>
         <button onClick={() => { setMobileOpen(false); navigate('/shop'); }} className="text-2xl tracking-[0.3em] uppercase text-white/80 hover:text-white text-left font-light">Shop</button>
         <button onClick={() => navigateToSection('about')} className="text-2xl tracking-[0.3em] uppercase text-white/80 hover:text-white text-left font-light">About</button>
         <button onClick={() => navigateToSection('contact')} className="text-2xl tracking-[0.3em] uppercase text-white/80 hover:text-white text-left font-light">Contact</button>
