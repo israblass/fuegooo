@@ -78,6 +78,13 @@ const Navbar = ({ onGoHome }: NavbarProps) => {
     {/* Mobile menu - rendered outside <nav> to escape backdrop-filter containing block */}
     {mobileOpen && (
       <div className="md:hidden fixed inset-0 bg-black z-[45] flex flex-col justify-center px-10 gap-10">
+        <button
+          onClick={() => setMobileOpen(false)}
+          aria-label="Cerrar menú"
+          className="absolute top-4 left-4 text-white"
+        >
+          <X size={22} />
+        </button>
         <button onClick={handleHomeClick} className="text-2xl tracking-[0.3em] uppercase text-white/80 hover:text-white text-left font-light">Home</button>
         <button onClick={() => { setMobileOpen(false); navigate('/shop'); }} className="text-2xl tracking-[0.3em] uppercase text-white/80 hover:text-white text-left font-light">Shop</button>
         <button onClick={() => navigateToSection('about')} className="text-2xl tracking-[0.3em] uppercase text-white/80 hover:text-white text-left font-light">About</button>
